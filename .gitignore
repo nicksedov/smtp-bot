@@ -3,7 +3,7 @@ bin
 
 vendor
 launch.json
-*.example
+*.exe
 
 # go executable built file
 smtp2http

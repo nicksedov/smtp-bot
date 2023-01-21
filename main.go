@@ -14,7 +14,7 @@ func main() {
 		ListenAddr:      *flagListenAddr,
 		MaxMessageBytes: int(*flagMaxMessageSize),
 		BannerDomain:    *flagServerName,
-		Handler:         smtpsrv.HandlerFunc(telegramHandler),
+		Handler:         smtpsrv.HandlerFunc(SmtpHandler),
 	}
 
 	fmt.Println(smtpsrv.ListenAndServe(&cfg))
