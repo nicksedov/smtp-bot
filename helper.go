@@ -1,5 +1,6 @@
 package main
 
+/*
 import (
 	"net/mail"
 )
@@ -28,3 +29,4 @@ func transformStdAddressToEmailAddress(addr []*mail.Address) []*EmailAddress {
 }
 
 // func smtpsrvMesssage2EmailMessage(msg *smtpsrv.Context)
+*/
