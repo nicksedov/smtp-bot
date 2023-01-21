@@ -2,6 +2,8 @@ bin
 .DS_Store
 
 vendor
+launch.json
+*.example
 
 # go executable built file
 smtp2http
