@@ -1,4 +1,4 @@
-module github.com/alash3al/smtp2http
+module github.com/alash3al/sbconn-bot
 
 go 1.13
 

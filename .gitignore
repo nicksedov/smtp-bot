@@ -3,7 +3,7 @@ bin
 
 vendor
 launch.json
-*.exe
 
 # go executable built file
-smtp2http
+sbconn-bot
+sbconn-bot.exe
