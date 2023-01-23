@@ -2,33 +2,65 @@ package main
 
 import (
 	"errors"
-	"log"
+	"strconv"
 	"strings"
 
 	"github.com/alash3al/go-smtpsrv"
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 )
 
-func SmtpHandler(c *smtpsrv.Context) error {
+func smtpHandler(c *smtpsrv.Context) error {
 	msg, err := c.Parse()
 	if err != nil {
 		return errors.New("Cannot read your message: " + err.Error())
 	}
-	var content string
-	var parseMode string
-	if strings.HasPrefix(msg.ContentType, "text/plain") {
-		content = string(msg.TextBody)
-	} else if strings.HasPrefix(msg.ContentType, "text/html") {
-		content = string(msg.HTMLBody)
-		parseMode = "HTML"
-	} else {
-		log.Printf("Unknown content type %s", msg.ContentType)
-		return nil
+	to := transformStdAddressToEmailAddress(msg.To)
+	chatId := lookupChatId(to)
+	if chatId == 0 {
+		cc := transformStdAddressToEmailAddress(msg.Cc)
+		chatId = lookupChatId(cc)
 	}
-	tgMsg := tgbotapi.NewMessage(*flagBotChatId, content)
-	if parseMode != "" {
-		tgMsg.ParseMode = parseMode
+	if chatId == 0 {
+		bcc := transformStdAddressToEmailAddress(msg.Bcc)
+		chatId = lookupChatId(bcc)
 	}
-	SendMessageToChat(tgMsg)
+
+	from := strings.Join(extractEmails(msg.From), ", ")
+	if msg.HTMLBody != "" {
+		sendHtml(from, msg.Subject, msg.HTMLBody, chatId)
+	} else if msg.TextBody != "" {
+		sendText(from, msg.Subject, msg.TextBody, chatId)
+	}
 	return nil
+}
+
+func lookupChatId(addr []*EmailAddress) int64 {
+	var chatId int64
+	var err error
+	for _, a := range addr {
+		tokens := strings.Split(a.Address, "@")
+		if strings.HasPrefix(tokens[0], "chatid") {
+			chatId, err = strconv.ParseInt(strings.TrimPrefix(tokens[0], "chatid"), 10, 64)
+			if err == nil {
+				break
+			}
+		}
+	}
+	return chatId
+}
+
+func sendHtml(from string, subj string, html string, chatId int64) {
+	file := tgbotapi.FileBytes{
+		Name:  "Сообщение.html",
+		Bytes: []byte(html),
+	}
+	doc := tgbotapi.NewDocument(chatId, file)
+	doc.Caption = "Сообщение от: " + from + "\nТема: " + subj
+	SendDocumentToChat(doc)
+}
+
+func sendText(from string, subj string, text string, chatId int64) {
+	caption := "Сообщение от: " + from + "\nТема: " + subj + "\n"
+	textMsg := tgbotapi.NewMessage(chatId, caption+text)
+	SendMessageToChat(textMsg)
 }

@@ -1,4 +1,4 @@
-module github.com/alash3al/sbconn-bot
+module github.com/nicksedov/sbconn-bot
 
 go 1.13
 

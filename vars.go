@@ -12,7 +12,6 @@ var (
 	flagAuthPASS       = flag.String("pass", "", "pass for smtp client")
 	flagDomain         = flag.String("domain", "", "domain for recieving mails")
 	flagBotToken       = flag.String("bot.token", "", "telegram bot token")
-	flagBotChatId      = flag.Int64("bot.chatId", 0, "telegram chat identifier")
 )
 
 func init() {

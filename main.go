@@ -14,7 +14,7 @@ func main() {
 		ListenAddr:      *flagListenAddr,
 		MaxMessageBytes: int(*flagMaxMessageSize),
 		BannerDomain:    *flagServerName,
-		Handler:         smtpsrv.HandlerFunc(SmtpHandler),
+		Handler:         smtpsrv.HandlerFunc(smtpHandler),
 	}
 
 	fmt.Println(smtpsrv.ListenAndServe(&cfg))
