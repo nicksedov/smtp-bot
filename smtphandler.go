@@ -4,7 +4,7 @@ import (
     "errors"
     "strconv"
     "strings"
-
+    "github.com/alash3al/go-smtpsrv"
     tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 )
 
@@ -61,7 +61,8 @@ func sendHtml(from string, subj string, html string, chatId int64) {
 }
 
 func sendText(from string, subj string, text string, chatId int64) {
-    caption := "Сообщение от: " + from + "\nТема: " + subj + "\n"
+    caption := "**Сообщение от:** " + from + "\n**Тема:** " + subj + "\n***"
     textMsg := tgbotapi.NewMessage(chatId, caption+text)
+    textMsg.ParseMode = "MarkdownV2"
     SendMessageToChat(textMsg)
 }
