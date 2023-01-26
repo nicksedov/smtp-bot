@@ -55,14 +55,14 @@ func sendHtml(from string, subj string, html string, chatId int64) {
 	Bytes: []byte(html),
     }
     doc := tgbotapi.NewDocument(chatId, file)
-    doc.Caption = "**Сообщение от:** " + from + "\n**Тема:** " + subj + "\n***"
-    doc.ParseMode = "MarkdownV2"
+    doc.Caption = "*Сообщение от:* " + from + "\n*Тема:* " + subj + "\n"
+    doc.ParseMode = "markdown"
     SendDocumentToChat(doc)
 }
 
 func sendText(from string, subj string, text string, chatId int64) {
-    caption := "**Сообщение от:** " + from + "\n**Тема:** " + subj + "\n***"
+    caption := "*Сообщение от:* " + from + "\n*Тема:* " + subj + "\n"
     textMsg := tgbotapi.NewMessage(chatId, caption+text)
-    textMsg.ParseMode = "MarkdownV2"
+    textMsg.ParseMode = "markdown"
     SendMessageToChat(textMsg)
 }
