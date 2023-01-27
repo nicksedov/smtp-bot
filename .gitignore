@@ -1,8 +1,9 @@
 bin
 .DS_Store
+.idea
+.vscode
 
 vendor
-launch.json
 
 # go executable built file
 sbconn-bot
