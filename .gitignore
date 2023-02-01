@@ -8,3 +8,4 @@ vendor
 # go executable built file
 sbconn-bot
 sbconn-bot.exe
+deploy.sh
