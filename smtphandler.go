@@ -4,9 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"html"
-	"strconv"
 	"strings"
-
 	"github.com/alash3al/go-smtpsrv"
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 )
@@ -35,21 +33,6 @@ func smtpHandler(c *smtpsrv.Context) error {
 		sendText(from, msg.Subject, text, chatId)
 	}
 	return nil
-}
-
-func lookupChatId(addr []*EmailAddress) int64 {
-	var chatId int64
-	var err error
-	for _, a := range addr {
-		tokens := strings.Split(a.Address, "@")
-		if strings.HasPrefix(tokens[0], "chatid") {
-			chatId, err = strconv.ParseInt(strings.TrimPrefix(tokens[0], "chatid"), 10, 64)
-			if err == nil {
-				break
-			}
-		}
-	}
-	return chatId
 }
 
 func sendHtml(from string, subj string, htmlDoc string, chatId int64) {

@@ -15,6 +15,7 @@ var (
 	flagReadTimeout    = flag.Int("timeout.read", 5, "the read timeout in seconds")
 	flagWriteTimeout   = flag.Int("timeout.write", 5, "the write timeout in seconds")
 	flagBotToken       = flag.String("bot.token", "", "telegram bot token")
+	flagConfig         = flag.String("config", "", "configuration YAML file")
 )
 
 func main() {
