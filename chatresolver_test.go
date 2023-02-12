@@ -6,7 +6,7 @@ import (
 )
 
 func TestLookupChatId(t *testing.T) {
-	*flagConfig = "sbcon-settings.yaml"
+	*flagConfig = "sbconn-settings.yaml"
 	emails := make([]*EmailAddress, 1)
 	emails[0] = &EmailAddress { Name: "Use alias", Address: "botgroup@mail.com" } 
 	fmt.Printf("alias='botgroup', chatId=%d\n", lookupChatId(emails))
