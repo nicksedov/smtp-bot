@@ -1,22 +1,21 @@
 package main
 
 import (
-	"fmt"
 	"net/mail"
 )
 
-func extractEmails(addr []*mail.Address, _ ...error) []string {
+func getEmailAliases(addr []*mail.Address, _ ...error) []string {
 	ret := []string{}
 	var settings = GetSettings()
 	for _, e := range addr {
 		if e.Name != "" {
-			ret = append(ret, fmt.Sprintf("%s <%s>", e.Name, e.Address))
+			ret = append(ret, e.Name)
 		} else {
 			aliases := settings.Aliases.Emails
 			address := e.Address
 			for _, alias := range aliases {
 				if e.Address == alias.Address {
-					address = fmt.Sprintf("%s <%s>", alias.Alias, alias.Address)
+					address = alias.Alias
 					break
 				}
 

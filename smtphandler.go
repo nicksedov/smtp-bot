@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"html"
 	"strings"
+
 	"github.com/alash3al/go-smtpsrv"
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 )
@@ -24,7 +25,7 @@ func smtpHandler(c *smtpsrv.Context) error {
 		chatId = lookupChatId(bcc)
 	}
 
-	from := strings.Join(extractEmails(msg.From), ", ")
+	from := strings.Join(getEmailAliases(msg.From), "; ")
 	if msg.HTMLBody != "" {
 		sendHtml(from, msg.Subject, msg.HTMLBody, chatId)
 	} else if msg.TextBody != "" {
