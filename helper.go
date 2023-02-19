@@ -1,17 +1,27 @@
 package main
 
 import (
+	"fmt"
 	"net/mail"
 )
 
 func extractEmails(addr []*mail.Address, _ ...error) []string {
 	ret := []string{}
-
+	settings = GetSettings()
 	for _, e := range addr {
 		if e.Name != "" {
-			ret = append(ret, e.Name+" <"+e.Address+">")
+			ret = append(ret, fmt.Sprintf("%s <%s>", e.Name, e.Address))
 		} else {
-			ret = append(ret, e.Address)
+			aliases := settings.Aliases.Emails
+			address := e.Address
+			for _, alias := range aliases {
+				if e.Address == alias.Address {
+					address = fmt.Sprintf("%s <%s>", alias.Alias, alias.Address)
+					break
+				}
+
+			}
+			ret = append(ret, address)
 		}
 	}
 
