@@ -27,7 +27,7 @@ func GetSettings() Settings {
 		if *flagConfig != "" {
 			yfile, ioErr := ioutil.ReadFile(*flagConfig)
 			if ioErr == nil {
-				ymlErr := yaml.Unmarshal(yfile, settings)
+				ymlErr := yaml.Unmarshal(yfile, &settings)
 				if ymlErr != nil {
 					log.Fatal(ymlErr)
 				}

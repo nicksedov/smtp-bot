@@ -7,7 +7,7 @@ import (
 
 func extractEmails(addr []*mail.Address, _ ...error) []string {
 	ret := []string{}
-	settings = GetSettings()
+	var settings = GetSettings()
 	for _, e := range addr {
 		if e.Name != "" {
 			ret = append(ret, fmt.Sprintf("%s <%s>", e.Name, e.Address))
