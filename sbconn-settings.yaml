@@ -1,7 +1,7 @@
 aliases:
   chats:
-    - alias: botgroup
-      chatid: -1001787389818
+    - alias: groupchat
+      chatid: -1001223595847
     - alias: testgroup
       chatid: -1001787389818
   emails:
