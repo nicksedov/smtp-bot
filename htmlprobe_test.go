@@ -35,7 +35,7 @@ func TestHtmlBody(t *testing.T) {
 }
 
 func TestIsSupportedMarkdown(t *testing.T) {
-	customHtmlSupported := isSupportedMarkdown(getHtmlBody(customHtml))
-	tgHtmlSupported := isSupportedMarkdown(getHtmlBody(tgHtml))
+	customHtmlSupported := isTelegramCompatibleHtml(getHtmlBody(customHtml))
+	tgHtmlSupported := isTelegramCompatibleHtml(getHtmlBody(tgHtml))
 	fmt.Printf("%s, %s", strconv.FormatBool(customHtmlSupported), strconv.FormatBool(tgHtmlSupported))
 }

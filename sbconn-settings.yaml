@@ -5,7 +5,7 @@ aliases:
     - alias: testgroup
       chatid: -1001787389818
   emails:
-    - alias: DevOps CI
+    - alias: Jenkins CI
       address: CAB-SA-CI001104@sberbank.ru
     - alias: DevTools
       address: devtools@nsedov.com

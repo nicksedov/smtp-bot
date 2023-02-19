@@ -7,14 +7,14 @@ import (
 	"golang.org/x/net/html"
 )
 
-func getHtmlBody(t string) string {
-	doc, _ := goquery.NewDocumentFromReader(strings.NewReader(t))
+func getHtmlBody(htmlDoc string) string {
+	doc, _ := goquery.NewDocumentFromReader(strings.NewReader(htmlDoc))
 	sel := doc.Find("BODY")
 	html, _ := sel.Html()
 	return html
 }
 
-func isSupportedMarkdown(text string) bool {
+func isTelegramCompatibleHtml(text string) bool {
 
 	tkn := html.NewTokenizer(strings.NewReader(text))
 

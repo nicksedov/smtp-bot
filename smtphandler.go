@@ -1,10 +1,10 @@
 package main
 
 import (
-	"errors"
 	"fmt"
 	"html"
 	"strings"
+
 	"github.com/alash3al/go-smtpsrv"
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 )
@@ -12,7 +12,7 @@ import (
 func smtpHandler(c *smtpsrv.Context) error {
 	msg, err := c.Parse()
 	if err != nil {
-		return errors.New("Cannot read your message: " + err.Error())
+		return fmt.Errorf("cannot read your message: %w", err)
 	}
 	to := transformStdAddressToEmailAddress(msg.To)
 	chatId := lookupChatId(to)
@@ -37,7 +37,7 @@ func smtpHandler(c *smtpsrv.Context) error {
 
 func sendHtml(from string, subj string, htmlDoc string, chatId int64) {
 	htmlBody := getHtmlBody(htmlDoc)
-	if isSupportedMarkdown(htmlBody) {
+	if isTelegramCompatibleHtml(htmlBody) {
 		caption := fmt.Sprintf("<b>Сообщение от:</b> %s\n<b>Тема:</b> %s\n", html.EscapeString(from), html.EscapeString(subj))
 		text := caption + htmlBody
 		textMsg := tgbotapi.NewMessage(chatId, text)
