@@ -23,8 +23,8 @@ var settings Settings = Settings{}
 var initialized bool = false
 
 func GetSettings() Settings {
-	if (!initialized) {
-		if (*flagConfig != "") {
+	if !initialized {
+		if *flagConfig != "" {
 			yfile, ioErr := ioutil.ReadFile(*flagConfig)
 			if ioErr == nil {
 				ymlErr := yaml.Unmarshal(yfile, settings)
