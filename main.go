@@ -20,7 +20,7 @@ var (
 
 func main() {
 	flag.Parse()
-
+	go Schedule()
 	cfg := smtpsrv.ServerConfig{
 		ReadTimeout:     time.Duration(*flagReadTimeout) * time.Second,
 		WriteTimeout:    time.Duration(*flagWriteTimeout) * time.Second,
@@ -31,4 +31,6 @@ func main() {
 	}
 
 	fmt.Println(smtpsrv.ListenAndServe(&cfg))
+
+	
 }

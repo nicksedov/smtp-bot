@@ -6,7 +6,6 @@ import (
 )
 
 func lookupChatId(addr []*EmailAddress) int64 {
-	var settings = GetSettings()
 	for _, a := range addr {
 		tokens := strings.Split(a.Address, "@")
 		if strings.HasPrefix(tokens[0], "chatid") {
@@ -15,11 +14,20 @@ func lookupChatId(addr []*EmailAddress) int64 {
 				return chatId
 			}
 		}
-		aliases := settings.Aliases.Chats
-		for _, chat := range aliases {
-			if chat.Alias == tokens[0] {
-				return chat.ChatId
-			}
+		chatIdByAlias := getChatIdByAlias(tokens[0])
+		if chatIdByAlias != 0 {
+			return chatIdByAlias
+		}
+	}
+	return 0
+}
+
+func getChatIdByAlias(token string) int64 {
+	var settings = GetSettings()
+	aliases := settings.Aliases.Chats
+	for _, chat := range aliases {
+		if chat.Alias == token {
+			return chat.ChatId
 		}
 	}
 	return 0

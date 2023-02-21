@@ -9,4 +9,8 @@ aliases:
       address: CAB-SA-CI001104@sberbank.ru
     - alias: DevTools
       address: devtools@nsedov.com
-  
+schedule:
+  once:
+    - moment: 2023-02-22T00:12:20+03:00
+      message: Do it once
+      destination: testgroup

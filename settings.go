@@ -3,6 +3,8 @@ package main
 import (
 	"io/ioutil"
 	"log"
+	"time"
+
 	"github.com/go-yaml/yaml"
 )
 
@@ -17,6 +19,13 @@ type Settings struct {
 			Address     string `yaml:"address"`
 		} `yaml:"emails"`
     } `yaml:"aliases"`
+	Schedule struct {
+		Once []struct {
+			Moment 		time.Time `yaml:"moment"`
+			Message     string `yaml:"message"`
+			Destination string `yaml:"destination"`
+		} `yaml:"once"`
+	} `yaml:"schedule"`
 }
 
 var settings Settings = Settings{}
