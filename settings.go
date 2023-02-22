@@ -13,6 +13,7 @@ type Settings struct {
         Chats []struct {
             Alias       string `yaml:"alias"`
             ChatId      int64  `yaml:"chatid"`
+			Caption     bool   `yaml:"caption"`
         } `yaml:"chats"`
 		Emails []struct{
 			Alias       string `yaml:"alias"`

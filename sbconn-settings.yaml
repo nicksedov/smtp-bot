@@ -2,8 +2,16 @@ aliases:
   chats:
     - alias: groupchat
       chatid: -1001223595847
+      caption: true
+    - alias: groupchat-prompt
+      chatid: -1001223595847
+      caption: false
     - alias: testgroup
       chatid: -1001787389818
+      caption: true
+    - alias: testgroup-prompt
+      chatid: -1001787389818
+      caption: false
   emails:
     - alias: Jenkins
       address: CAB-SA-CI001104@sberbank.ru
@@ -11,6 +19,15 @@ aliases:
       address: devtools@nsedov.com
 schedule:
   once:
-    - moment: 2023-02-22T00:12:20+03:00
-      message: Do it once
-      destination: testgroup
+    - moment: 2023-03-06T09:30:00+03:00
+      message: Всем приветы в этом чате! Напоминалка от меня, что завтра начинается ИФТ релиза Release-20230325
+      destination: groupchat-prompt
+    - moment: 2023-03-07T09:30:00+03:00
+      message: Сегодня начинаем ИФТ релиза Release-20230325
+      destination: groupchat-prompt
+    - moment: 2023-03-13T09:30:00+03:00
+      message: Всем привет! Завтра начинается ПСИ релиза Release-20230325
+      destination: groupchat-prompt
+    - moment: 2023-03-14T09:30:00+03:00
+      message: Сегодня начинаем ПСИ релиза Release-20230325
+      destination: groupchat-prompt

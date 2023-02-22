@@ -15,14 +15,14 @@ func smtpHandler(c *smtpsrv.Context) error {
 		return fmt.Errorf("cannot read your message: %w", err)
 	}
 	to := transformStdAddressToEmailAddress(msg.To)
-	chatId := lookupChatId(to)
+	chatId, needsCaption := lookupChat(to)
 	if chatId == 0 {
 		cc := transformStdAddressToEmailAddress(msg.Cc)
-		chatId = lookupChatId(cc)
+		chatId, needsCaption = lookupChat(cc)
 	}
 	if chatId == 0 {
 		bcc := transformStdAddressToEmailAddress(msg.Bcc)
-		chatId = lookupChatId(bcc)
+		chatId, needsCaption = lookupChat(bcc)
 	}
 
 	from := strings.Join(getEmailAliases(msg.From), "; ")
@@ -30,7 +30,11 @@ func smtpHandler(c *smtpsrv.Context) error {
 		sendHtml(from, msg.Subject, msg.HTMLBody, chatId)
 	} else if msg.TextBody != "" {
 		text := strings.Split(msg.TextBody, "<!--- END OF DOCUMENT --->")[0]
-		sendText(from, msg.Subject, text, chatId)
+		if needsCaption {
+			sendTextWithCaption(from, msg.Subject, text, chatId)
+		} else {
+			sendText(text, chatId)
+		}
 	}
 	return nil
 }
@@ -56,9 +60,13 @@ func sendHtml(from string, subj string, htmlDoc string, chatId int64) {
 	}
 }
 
-func sendText(from string, subj string, content string, chatId int64) {
-	msgText := fmt.Sprintf("*Сообщение от:* %s\n*Тема:* %s\n%s", from, subj, content)
-	chattable := tgbotapi.NewMessage(chatId, msgText)
+func sendText(content string, chatId int64) {
+	chattable := tgbotapi.NewMessage(chatId, content)
 	chattable.ParseMode = "markdown"
 	SendMessageToChat(chattable)
+}
+
+func sendTextWithCaption(from string, subj string, content string, chatId int64) {
+	msgText := fmt.Sprintf("*Сообщение от:* %s\n*Тема:* %s\n%s", from, subj, content)
+	sendText(msgText, chatId)
 }

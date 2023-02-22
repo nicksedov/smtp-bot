@@ -20,7 +20,9 @@ var (
 
 func main() {
 	flag.Parse()
+	// Run background process for firing scheduled messages 
 	go Schedule()
+	// Run SMTP server process
 	cfg := smtpsrv.ServerConfig{
 		ReadTimeout:     time.Duration(*flagReadTimeout) * time.Second,
 		WriteTimeout:    time.Duration(*flagWriteTimeout) * time.Second,
@@ -29,8 +31,5 @@ func main() {
 		BannerDomain:    *flagServerName,
 		Handler:         smtpsrv.HandlerFunc(smtpHandler),
 	}
-
 	fmt.Println(smtpsrv.ListenAndServe(&cfg))
-
-	
 }

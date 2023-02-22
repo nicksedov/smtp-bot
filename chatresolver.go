@@ -5,31 +5,30 @@ import (
 	"strings"
 )
 
-func lookupChatId(addr []*EmailAddress) int64 {
+func lookupChat(addr []*EmailAddress) (int64, bool) {
 	for _, a := range addr {
 		tokens := strings.Split(a.Address, "@")
 		if strings.HasPrefix(tokens[0], "chatid") {
 			chatId, err := strconv.ParseInt(strings.TrimPrefix(tokens[0], "chatid"), 10, 64)
 			if err == nil {
-				return chatId
+				return chatId, true
 			}
 		}
-		chatIdByAlias := getChatIdByAlias(tokens[0])
+		chatIdByAlias, needsCaption := getChatIdByAlias(tokens[0])
 		if chatIdByAlias != 0 {
-			return chatIdByAlias
+			return chatIdByAlias, needsCaption
 		}
 	}
-	return 0
+	return 0, false
 }
 
-func getChatIdByAlias(token string) int64 {
+func getChatIdByAlias(token string) (int64, bool) {
 	var settings = GetSettings()
 	aliases := settings.Aliases.Chats
 	for _, chat := range aliases {
 		if chat.Alias == token {
-			return chat.ChatId
+			return chat.ChatId, chat.Caption
 		}
 	}
-	return 0
+	return 0, false
 }
-
