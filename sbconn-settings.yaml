@@ -19,6 +19,7 @@ aliases:
       address: devtools@nsedov.com
 schedule:
   once:
+    # Release-20230325
     - moment: 2023-03-06T09:30:00+03:00
       message: Всем приветы в этом чате! Напоминалка от меня, что завтра начинается ИФТ релиза Release-20230325
       destination: groupchat-prompt
@@ -31,3 +32,29 @@ schedule:
     - moment: 2023-03-14T09:30:00+03:00
       message: Сегодня начинаем ПСИ релиза Release-20230325
       destination: groupchat-prompt
+    # Release-20230422
+    - moment: 2023-04-03T09:30:00+03:00
+      message: Всем приветы в этом чате! Напоминалка от меня, что завтра начинается ИФТ релиза Release-20230422
+      destination: groupchat-prompt
+    - moment: 2023-04-04T09:30:00+03:00
+      message: Сегодня начинаем ИФТ релиза Release-20230422
+      destination: groupchat-prompt
+    - moment: 2023-04-10T09:30:00+03:00
+      message: Всем привет! Завтра начинается ПСИ релиза Release-20230422
+      destination: groupchat-prompt
+    - moment: 2023-04-11T09:30:00+03:00
+      message: Сегодня начинаем ПСИ релиза Release-20230422
+      destination: groupchat-prompt
+    # Release-20230527
+    - moment: 2023-05-09T09:30:00+03:00
+      message: Всем приветы в этом чате! Напоминалка от меня, что завтра начинается ИФТ релиза Release-20230527
+      destination: groupchat-prompt
+    - moment: 2023-05-10T09:30:00+03:00
+      message: Сегодня начинаем ИФТ релиза Release-20230527
+      destination: groupchat-prompt
+    - moment: 2023-05-15T09:30:00+03:00
+      message: Всем привет! Завтра начинается ПСИ релиза Release-20230527
+      destination: groupchat-prompt
+    - moment: 2023-05-16T09:30:00+03:00
+      message: Сегодня начинаем ПСИ релиза Release-20230527
+      destination: groupchat-prompt      
