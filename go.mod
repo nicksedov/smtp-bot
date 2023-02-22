@@ -8,5 +8,6 @@ require (
 	github.com/go-telegram-bot-api/telegram-bot-api/v5 v5.5.1
 	github.com/go-yaml/yaml v2.1.0+incompatible
 	golang.org/x/net v0.0.0-20210916014120-12bc252f5db8
+	golang.org/x/text v0.3.7
 	gopkg.in/yaml.v3 v3.0.1
 )

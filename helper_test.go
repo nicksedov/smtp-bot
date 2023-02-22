@@ -11,5 +11,5 @@ func TestExtractEmails(t *testing.T) {
 	emails := make([]*mail.Address, 1)
 	emails[0] = &mail.Address{Name: "", Address: "devtools@nsedov.com"}
 	res := getEmailAliases(emails)
-	fmt.Printf("%s", res[0])
+	fmt.Println(res[0])
 }

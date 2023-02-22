@@ -25,13 +25,14 @@ func smtpHandler(c *smtpsrv.Context) error {
 		chatId, needsCaption = lookupChat(bcc)
 	}
 
-	from := strings.Join(getEmailAliases(msg.From), "; ")
+	from := decodeRFC2047(strings.Join(getEmailAliases(msg.From), "; "))
+	subj := decodeRFC2047(msg.Subject)
 	if msg.HTMLBody != "" {
-		sendHtml(from, msg.Subject, msg.HTMLBody, chatId)
+		sendHtml(from, subj, msg.HTMLBody, chatId)
 	} else if msg.TextBody != "" {
 		text := strings.Split(msg.TextBody, "<!--- END OF DOCUMENT --->")[0]
 		if needsCaption {
-			sendTextWithCaption(from, msg.Subject, text, chatId)
+			sendTextWithCaption(from, subj, text, chatId)
 		} else {
 			sendText(text, chatId)
 		}
