@@ -1,8 +1,10 @@
-package main
+package email
 
 import (
 	"strconv"
 	"strings"
+
+	"github.com/nicksedov/sbconn-bot/pkg/settings"
 )
 
 func lookupChat(addr []*EmailAddress) (int64, bool) {
@@ -14,7 +16,7 @@ func lookupChat(addr []*EmailAddress) (int64, bool) {
 				return chatId, true
 			}
 		}
-		chatIdByAlias, needsCaption := getChatIdByAlias(tokens[0])
+		chatIdByAlias, needsCaption := GetChatIdByAlias(tokens[0])
 		if chatIdByAlias != 0 {
 			return chatIdByAlias, needsCaption
 		}
@@ -22,8 +24,8 @@ func lookupChat(addr []*EmailAddress) (int64, bool) {
 	return 0, false
 }
 
-func getChatIdByAlias(token string) (int64, bool) {
-	var settings = GetSettings()
+func GetChatIdByAlias(token string) (int64, bool) {
+	var settings = settings.GetSettings()
 	aliases := settings.Aliases.Chats
 	for _, chat := range aliases {
 		if chat.Alias == token {

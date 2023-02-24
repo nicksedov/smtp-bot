@@ -1,14 +1,17 @@
-package main
+package email
 
 import (
 	"fmt"
 	"testing"
+
+	"github.com/nicksedov/sbconn-bot/pkg/cli"
+	"github.com/nicksedov/sbconn-bot/pkg/settings"
 )
 
 func TestLookupChatId(t *testing.T) {
-	*flagConfig = "sbconn-settings.yaml"
+	*cli.FlagConfig = "sbconn-settings.yaml"
 	// Check existent aliases
-	settings := GetSettings()
+	settings := settings.GetSettings()
 	for _, alias := range settings.Aliases.Chats {
 		emails := make([]*EmailAddress, 1)
 		emails[0] = &EmailAddress{Name: "Has alias " + alias.Alias, Address: alias.Alias + "@mail.com"}

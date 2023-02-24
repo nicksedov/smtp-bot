@@ -1,4 +1,4 @@
-package main
+package telegram
 
 import (
 	"strings"
@@ -7,14 +7,14 @@ import (
 	"golang.org/x/net/html"
 )
 
-func getHtmlBody(htmlDoc string) string {
+func GetHtmlBodyContent(htmlDoc string) string {
 	doc, _ := goquery.NewDocumentFromReader(strings.NewReader(htmlDoc))
 	sel := doc.Find("BODY")
 	html, _ := sel.Html()
 	return html
 }
 
-func isTelegramCompatibleHtml(text string) bool {
+func IsTelegramCompatibleHtml(text string) bool {
 
 	tkn := html.NewTokenizer(strings.NewReader(text))
 

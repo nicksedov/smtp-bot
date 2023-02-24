@@ -1,15 +1,19 @@
-package main
+package scheduler
 
 import (
 	"sync"
 	"time"
+
+	"github.com/nicksedov/sbconn-bot/pkg/settings"
+	"github.com/nicksedov/sbconn-bot/pkg/email"
+
 )
 
 func Schedule() {
 	var schedWaitGroup sync.WaitGroup
-	var settings = GetSettings()
+	var settings = settings.GetSettings()
 	for _, t := range settings.Schedule.Once {
-		chatId, needsCaption := getChatIdByAlias(t.Destination)
+		chatId, needsCaption := email.GetChatIdByAlias(t.Destination)
 		if chatId != 0 {
 			duration := time.Until(t.Moment)
 			if duration > 0 {
@@ -19,9 +23,9 @@ func Schedule() {
 					defer wg.Done()
 					time.Sleep(duration)
 					if (needsCaption) {
-						sendTextWithCaption("Jenkins", "Напоминание", message, chatId)
+						email.SendTextWithCaption("Jenkins", "Напоминание", message, chatId)
 					} else {
-						sendText(message, chatId)
+						email.SendText(message, chatId)
 					}
 				}(&schedWaitGroup)
 			}

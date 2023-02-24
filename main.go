@@ -6,30 +6,23 @@ import (
 	"time"
 
 	"github.com/alash3al/go-smtpsrv"
-)
-
-var (
-	flagServerName     = flag.String("name", "sbconn-bot", "the server name")
-	flagListenAddr     = flag.String("listen", ":smtp", "the smtp address to listen on")
-	flagMaxMessageSize = flag.Int64("msglimit", 1024*1024*2, "maximum incoming message size")
-	flagReadTimeout    = flag.Int("timeout.read", 5, "the read timeout in seconds")
-	flagWriteTimeout   = flag.Int("timeout.write", 5, "the write timeout in seconds")
-	flagBotToken       = flag.String("bot.token", "", "telegram bot token")
-	flagConfig         = flag.String("config", "", "configuration YAML file")
+	"github.com/nicksedov/sbconn-bot/pkg/cli"
+	"github.com/nicksedov/sbconn-bot/pkg/email"
+	"github.com/nicksedov/sbconn-bot/pkg/scheduler"
 )
 
 func main() {
 	flag.Parse()
 	// Run background process for firing scheduled messages 
-	go Schedule()
+	go scheduler.Schedule()
 	// Run SMTP server process
 	cfg := smtpsrv.ServerConfig{
-		ReadTimeout:     time.Duration(*flagReadTimeout) * time.Second,
-		WriteTimeout:    time.Duration(*flagWriteTimeout) * time.Second,
-		ListenAddr:      *flagListenAddr,
-		MaxMessageBytes: int(*flagMaxMessageSize),
-		BannerDomain:    *flagServerName,
-		Handler:         smtpsrv.HandlerFunc(smtpHandler),
+		ReadTimeout:     time.Duration(*cli.FlagReadTimeout) * time.Second,
+		WriteTimeout:    time.Duration(*cli.FlagWriteTimeout) * time.Second,
+		ListenAddr:      *cli.FlagListenAddr,
+		MaxMessageBytes: int(*cli.FlagMaxMessageSize),
+		BannerDomain:    *cli.FlagServerName,
+		Handler:         smtpsrv.HandlerFunc(email.SmtpHandler),
 	}
 	fmt.Println(smtpsrv.ListenAndServe(&cfg))
 }

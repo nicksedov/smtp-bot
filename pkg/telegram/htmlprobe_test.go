@@ -1,4 +1,4 @@
-package main
+package telegram
 
 import (
 	"fmt"
@@ -30,12 +30,12 @@ var (
 )
 
 func TestHtmlBody(t *testing.T) {
-	html := getHtmlBody(customHtml)
+	html := GetHtmlBodyContent(customHtml)
 	fmt.Printf("HTML <body> content: %s", html)
 }
 
 func TestIsSupportedMarkdown(t *testing.T) {
-	customHtmlSupported := isTelegramCompatibleHtml(getHtmlBody(customHtml))
-	tgHtmlSupported := isTelegramCompatibleHtml(getHtmlBody(tgHtml))
+	customHtmlSupported := IsTelegramCompatibleHtml(GetHtmlBodyContent(customHtml))
+	tgHtmlSupported := IsTelegramCompatibleHtml(GetHtmlBodyContent(tgHtml))
 	fmt.Printf("%s, %s", strconv.FormatBool(customHtmlSupported), strconv.FormatBool(tgHtmlSupported))
 }

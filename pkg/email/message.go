@@ -1,4 +1,4 @@
-package main
+package email
 
 // EmailAddress ...
 type EmailAddress struct {

@@ -1,4 +1,4 @@
-package main
+package email
 
 import (
 	"fmt"
@@ -7,9 +7,10 @@ import (
 
 	"github.com/alash3al/go-smtpsrv"
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
+	"github.com/nicksedov/sbconn-bot/pkg/telegram"
 )
 
-func smtpHandler(c *smtpsrv.Context) error {
+func SmtpHandler(c *smtpsrv.Context) error {
 	msg, err := c.Parse()
 	if err != nil {
 		return fmt.Errorf("cannot read your message: %w", err)
@@ -32,23 +33,23 @@ func smtpHandler(c *smtpsrv.Context) error {
 	} else if msg.TextBody != "" {
 		text := strings.Split(msg.TextBody, "<!--- END OF DOCUMENT --->")[0]
 		if needsCaption {
-			sendTextWithCaption(from, subj, text, chatId)
+			SendTextWithCaption(from, subj, text, chatId)
 		} else {
-			sendText(text, chatId)
+			SendText(text, chatId)
 		}
 	}
 	return nil
 }
 
 func sendHtml(from string, subj string, htmlDoc string, chatId int64) {
-	htmlBody := getHtmlBody(htmlDoc)
-	if isTelegramCompatibleHtml(htmlBody) {
+	htmlBody := telegram.GetHtmlBodyContent(htmlDoc)
+	if telegram.IsTelegramCompatibleHtml(htmlBody) {
 		htmlFrom := html.EscapeString(from)
 		htmlSubj := html.EscapeString(subj)
 		msgText := fmt.Sprintf("<b>Сообщение от:</b> %s\n<b>Тема:</b> %s\n%s", htmlFrom, htmlSubj, htmlBody)
 		chattable := tgbotapi.NewMessage(chatId, msgText)
 		chattable.ParseMode = "HTML"
-		SendMessageToChat(chattable)
+		telegram.SendMessageToChat(chattable)
 	} else {
 		file := tgbotapi.FileBytes{
 			Name:  "Сообщение.html",
@@ -57,17 +58,17 @@ func sendHtml(from string, subj string, htmlDoc string, chatId int64) {
 		chattable := tgbotapi.NewDocument(chatId, file)
 		chattable.Caption = fmt.Sprintf("*Сообщение от:* %s\n*Тема:* %s\n", from, subj)
 		chattable.ParseMode = "markdown"
-		SendMessageToChat(chattable)
+		telegram.SendMessageToChat(chattable)
 	}
 }
 
-func sendText(content string, chatId int64) {
+func SendText(content string, chatId int64) {
 	chattable := tgbotapi.NewMessage(chatId, content)
 	chattable.ParseMode = "markdown"
-	SendMessageToChat(chattable)
+	telegram.SendMessageToChat(chattable)
 }
 
-func sendTextWithCaption(from string, subj string, content string, chatId int64) {
+func SendTextWithCaption(from string, subj string, content string, chatId int64) {
 	msgText := fmt.Sprintf("*Сообщение от:* %s\n*Тема:* %s\n%s", from, subj, content)
-	sendText(msgText, chatId)
+	SendText(msgText, chatId)
 }

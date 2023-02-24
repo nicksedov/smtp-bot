@@ -1,12 +1,14 @@
-package main
+package email
 
 import (
 	"net/mail"
+
+	"github.com/nicksedov/sbconn-bot/pkg/settings"
 )
 
 func getEmailAliases(addr []*mail.Address, _ ...error) []string {
 	ret := []string{}
-	var settings = GetSettings()
+	var settings = settings.GetSettings()
 	for _, e := range addr {
 		if e.Name != "" {
 			ret = append(ret, e.Name)
