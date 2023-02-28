@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func TestHtmlToTelegramHTML(t *testing.T) {
+func TestTransformHtmlToTelegramCompatible(t *testing.T) {
 	// Test input and expected output
 	input := `
 		<p><strong>Bold Text</strong></p>

@@ -34,10 +34,8 @@ func TransformHtmlToTelegramCompatible(html string) string {
 			html, _ := s.Html()
 			s.ReplaceWithHtml(html)
 		case "ol":
-			var index int
 			s.Find("li").Each(func(i int, li *goquery.Selection) {
-				index++
-				li.ReplaceWithHtml(fmt.Sprintf("%d. %s", index, strings.TrimLeft(li.Text(), " ")))
+				li.ReplaceWithHtml(fmt.Sprintf("%d. %s", i + 1, strings.TrimLeft(li.Text(), " ")))
 			})
 			html, _ := s.Html()
 			s.ReplaceWithHtml(html)
