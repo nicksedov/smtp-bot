@@ -19,7 +19,7 @@ func IsTelegramCompatibleHtml(text string) bool {
 	tkn := html.NewTokenizer(strings.NewReader(text))
 
 	var acceptedVals []string = []string{"b", "strong", "i", "em", "u", "ins", "s", "strike", "del",
-		"span", "tg-spoiler", "a", "code", "pre"}
+		"tg-spoiler", "a", "code", "pre"}
 
 	for {
 		tt := tkn.Next()
