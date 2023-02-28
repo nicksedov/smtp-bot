@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func TestTransformHtmlToTelegramCompatible(t *testing.T) {
+func TestTryMakeHtmlTelegramCompatible(t *testing.T) {
 	// Test input and expected output
 	input := `
 		<p><strong>Bold Text</strong></p>
@@ -26,6 +26,6 @@ func TestTransformHtmlToTelegramCompatible(t *testing.T) {
 		</ol>
 	`
 	// Call the function and check the output
-	output := TransformHtmlToTelegramCompatible(input)
+	output := TryMakeHtmlTelegramCompatible(input)
 	fmt.Printf("=>%s<=", output)
 }

@@ -9,8 +9,8 @@ import (
 	"github.com/PuerkitoBio/goquery"
 )
 
-// TransformHtmlToTelegramCompatible converts an HTML string to a Telegram-compatible HTML string
-func TransformHtmlToTelegramCompatible(html string) string {
+// TryMakeHtmlTelegramCompatible converts an HTML string to a Telegram-compatible HTML string
+func TryMakeHtmlTelegramCompatible(html string) string {
 	// parse the input HTML string into a DOM tree
 	doc, err := goquery.NewDocumentFromReader(strings.NewReader(html))
 	if err != nil {
@@ -20,7 +20,8 @@ func TransformHtmlToTelegramCompatible(html string) string {
 	// iterate over all HTML elements in the tree and convert them to their
 	// Telegram-compatible equivalents
 	doc.Find("*").Each(func(i int, s *goquery.Selection) {
-		switch s.Get(0).Data {
+		node := s.Get(0)
+		switch node.Data {
 		case "p", "div":
 			html, _ = s.Html()
 			s.ReplaceWithHtml("\n" + html + "\n")
@@ -35,7 +36,7 @@ func TransformHtmlToTelegramCompatible(html string) string {
 			s.ReplaceWithHtml(html)
 		case "ol":
 			s.Find("li").Each(func(i int, li *goquery.Selection) {
-				li.ReplaceWithHtml(fmt.Sprintf("%d. %s", i + 1, strings.TrimLeft(li.Text(), " ")))
+				li.ReplaceWithHtml(fmt.Sprintf("%d. %s", i+1, strings.TrimLeft(li.Text(), " ")))
 			})
 			html, _ := s.Html()
 			s.ReplaceWithHtml(html)

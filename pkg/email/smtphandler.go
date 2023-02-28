@@ -42,7 +42,8 @@ func SmtpHandler(c *smtpsrv.Context) error {
 }
 
 func sendHtml(from string, subj string, htmlDoc string, chatId int64) {
-	htmlBody := telegram.GetHtmlBodyContent(htmlDoc)
+	tgCompatibleHtmlDoc := telegram.TryMakeHtmlTelegramCompatible(htmlDoc)
+	htmlBody := telegram.GetHtmlBodyContent(tgCompatibleHtmlDoc)
 	if telegram.IsTelegramCompatibleHtml(htmlBody) {
 		htmlFrom := html.EscapeString(from)
 		htmlSubj := html.EscapeString(subj)
