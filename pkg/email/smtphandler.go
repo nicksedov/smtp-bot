@@ -42,7 +42,8 @@ func SmtpHandler(c *smtpsrv.Context) error {
 }
 
 func sendHtml(from string, subj string, htmlDoc string, chatId int64) {
-	tgCompatibleHtmlDoc := telegram.TryMakeHtmlTelegramCompatible(htmlDoc)
+	htmlPreprocessedDoc := telegram.ContentPreprocessor(htmlDoc)
+	tgCompatibleHtmlDoc := telegram.TryMakeHtmlTelegramCompatible(htmlPreprocessedDoc)
 	htmlBody := telegram.GetHtmlBodyContent(tgCompatibleHtmlDoc)
 	if telegram.IsTelegramCompatibleHtml(htmlBody) {
 		htmlFrom := html.EscapeString(from)
@@ -54,7 +55,7 @@ func sendHtml(from string, subj string, htmlDoc string, chatId int64) {
 	} else {
 		file := tgbotapi.FileBytes{
 			Name:  "Сообщение.html",
-			Bytes: []byte(htmlDoc),
+			Bytes: []byte(htmlPreprocessedDoc),
 		}
 		chattable := tgbotapi.NewDocument(chatId, file)
 		chattable.Caption = fmt.Sprintf("*Сообщение от:* %s\n*Тема:* %s\n", from, subj)

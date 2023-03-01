@@ -21,6 +21,12 @@ type Settings struct {
 			Address string `yaml:"address"`
 		} `yaml:"emails"`
 	} `yaml:"aliases"`
+	Content struct {
+		Replace []struct{
+			Pattern string `yaml:"pattern"`
+			Replacement string  `yaml:"replacement"`
+		} `yaml:"replace"`
+	} `yaml:"content"`
 	Schedule struct {
 		Once []struct {
 			Moment      time.Time `yaml:"moment"`

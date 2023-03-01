@@ -15,14 +15,14 @@ func TestTryMakeHtmlTelegramCompatible(t *testing.T) {
 		<p><code>Code Text</code></p>
 		<p><a href="https://example.com">Link Text</a></p>
 		<ul>
-			<li>List Item 1</li>
-			<li>List Item 2</li>
-			<li>List Item 3</li>
+			<li>Bullet Item <b>1</b></li>
+			<li>Bullet Item <b>2</b></li>
+			<li>Bullet Item <b>3</b></li>
 		</ul>
 		<ol>
-			<li>List Item 1</li>
-			<li>List Item 2</li>
-			<li>List Item 3</li>
+			<li>Numbered Item 1</li>
+			<li>Numbered Item 2</li>
+			<li>Numbered Item 3</li>
 		</ol>
 	`
 	// Call the function and check the output

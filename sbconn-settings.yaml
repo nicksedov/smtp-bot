@@ -17,6 +17,10 @@ aliases:
       address: CAB-SA-CI001104@sberbank.ru
     - alias: DevTools
       address: devtools@nsedov.com
+content:
+  replace:
+    - pattern: УВЕДОМЛЕНИЕ О КОНФИДЕНЦИАЛЬНОСТИ[^<]+
+      replacement:
 schedule:
   once:
     # Release-20230325

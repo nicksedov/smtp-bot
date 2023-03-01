@@ -25,18 +25,23 @@ func TryMakeHtmlTelegramCompatible(html string) string {
 		case "p", "div":
 			html, _ = s.Html()
 			s.ReplaceWithHtml("\n" + html + "\n")
+		case "h1", "h2", "h3", "h4", "h5", "h6":
+			html, _ = s.Html()
+			s.ReplaceWithHtml("<b>" + html + "</b>")
 		case "span":
 			html, _ = s.Html()
 			s.ReplaceWithHtml(html)
 		case "ul":
 			s.Find("li").Each(func(i int, li *goquery.Selection) {
-				li.ReplaceWithHtml(fmt.Sprintf("&bull; %s", strings.TrimLeft(li.Text(), " ")))
+				html, _ = li.Html()
+				li.ReplaceWithHtml(fmt.Sprintf("&bull; %s", html))
 			})
 			html, _ := s.Html()
 			s.ReplaceWithHtml(html)
 		case "ol":
 			s.Find("li").Each(func(i int, li *goquery.Selection) {
-				li.ReplaceWithHtml(fmt.Sprintf("%d. %s", i+1, strings.TrimLeft(li.Text(), " ")))
+				html, _ = li.Html()
+				li.ReplaceWithHtml(fmt.Sprintf("%d. %s", i+1, html))
 			})
 			html, _ := s.Html()
 			s.ReplaceWithHtml(html)
