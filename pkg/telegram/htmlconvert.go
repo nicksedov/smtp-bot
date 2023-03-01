@@ -22,10 +22,10 @@ func TryMakeHtmlTelegramCompatible(html string) string {
 	doc.Find("*").Each(func(i int, s *goquery.Selection) {
 		node := s.Get(0)
 		switch node.Data {
-		case "p", "div":
+		case "p", "div", "br":
 			html, _ = s.Html()
 			s.ReplaceWithHtml("\n" + html + "\n")
-		case "h1", "h2", "h3", "h4", "h5", "h6":
+		case "h1", "h2", "h3", "h4", "h5", "h6", "big":
 			html, _ = s.Html()
 			s.ReplaceWithHtml("<b>" + html + "</b>")
 		case "span":
