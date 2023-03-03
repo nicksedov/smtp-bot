@@ -9,7 +9,7 @@ import (
 
 var bot *tgbotapi.BotAPI
 
-func GetBotAPI() (*tgbotapi.BotAPI, error) {
+func getBotAPI() (*tgbotapi.BotAPI, error) {
 	if bot == nil {
 		var err error
 		bot, err = tgbotapi.NewBotAPI(*cli.FlagBotToken)
@@ -21,7 +21,7 @@ func GetBotAPI() (*tgbotapi.BotAPI, error) {
 }
 
 func SendMessageToChat(mc tgbotapi.Chattable) error {
-	bot, err := GetBotAPI()
+	bot, err := getBotAPI()
 	if err == nil {
 		_, err = bot.Send(mc)
 	}

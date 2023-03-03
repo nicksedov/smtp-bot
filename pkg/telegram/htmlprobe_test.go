@@ -29,13 +29,13 @@ var (
 		"</html>"
 )
 
-func TestHtmlBody(t *testing.T) {
+func TestGetHtmlBodyContent(t *testing.T) {
 	html := GetHtmlBodyContent(customHtml)
 	fmt.Printf("HTML <body> content: %s", html)
 }
 
-func TestIsSupportedMarkdown(t *testing.T) {
-	customHtmlSupported := IsTelegramCompatibleHtml(GetHtmlBodyContent(customHtml))
-	tgHtmlSupported := IsTelegramCompatibleHtml(GetHtmlBodyContent(tgHtml))
+func TestIsHtmlAdaptedForTelegram(t *testing.T) {
+	customHtmlSupported := IsHtmlAdaptedForTelegram(GetHtmlBodyContent(customHtml))
+	tgHtmlSupported := IsHtmlAdaptedForTelegram(GetHtmlBodyContent(tgHtml))
 	fmt.Printf("%s, %s", strconv.FormatBool(customHtmlSupported), strconv.FormatBool(tgHtmlSupported))
 }

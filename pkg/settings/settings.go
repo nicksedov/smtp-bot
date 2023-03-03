@@ -30,10 +30,15 @@ type Settings struct {
 	Schedule struct {
 		Once []struct {
 			Moment      time.Time `yaml:"moment"`
-			Message     string    `yaml:"message"`
+			MessageRef  string    `yaml:"messageRef"`
+			MessageArgs string    `yaml:"messageArgs"`
 			Destination string    `yaml:"destination"`
 		} `yaml:"once"`
 	} `yaml:"schedule"`
+	Messages []struct {
+		Id      string `yaml:"id"`
+		Text    string `yaml:"text"`
+	} `yaml:"messages"`
 }
 
 var settings Settings = Settings{}

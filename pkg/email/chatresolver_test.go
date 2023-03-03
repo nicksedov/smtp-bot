@@ -9,7 +9,7 @@ import (
 )
 
 func TestLookupChatId(t *testing.T) {
-	*cli.FlagConfig = "sbconn-settings.yaml"
+	*cli.FlagConfig = "../../sbconn-settings.yaml"
 	// Check existent aliases
 	settings := settings.GetSettings()
 	for _, alias := range settings.Aliases.Chats {

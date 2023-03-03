@@ -11,5 +11,5 @@ var (
 	FlagReadTimeout    = flag.Int("timeout.read", 5, "the read timeout in seconds")
 	FlagWriteTimeout   = flag.Int("timeout.write", 5, "the write timeout in seconds")
 	FlagBotToken       = flag.String("bot.token", "", "telegram bot token")
-	FlagConfig         = flag.String("config", "sbconn-settings.", "configuration YAML file")
+	FlagConfig         = flag.String("config", "sbconn-settings.yaml", "configuration YAML file")
 )

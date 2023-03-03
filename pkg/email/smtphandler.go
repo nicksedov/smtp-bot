@@ -43,9 +43,9 @@ func SmtpHandler(c *smtpsrv.Context) error {
 
 func sendHtml(from string, subj string, htmlDoc string, chatId int64) {
 	htmlPreprocessedDoc := telegram.ContentPreprocessor(htmlDoc)
-	tgCompatibleHtmlDoc := telegram.TryMakeHtmlTelegramCompatible(htmlPreprocessedDoc)
+	tgCompatibleHtmlDoc := telegram.TryAdaptHtmlForTelegram(htmlPreprocessedDoc)
 	htmlBody := telegram.GetHtmlBodyContent(tgCompatibleHtmlDoc)
-	if telegram.IsTelegramCompatibleHtml(htmlBody) {
+	if telegram.IsHtmlAdaptedForTelegram(htmlBody) {
 		htmlFrom := html.EscapeString(from)
 		htmlSubj := html.EscapeString(subj)
 		msgText := fmt.Sprintf("<b>Сообщение от:</b> %s\n<b>Тема:</b> %s\n%s", htmlFrom, htmlSubj, htmlBody)

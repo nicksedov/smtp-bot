@@ -25,40 +25,66 @@ schedule:
   once:
     # Release-20230325
     - moment: 2023-03-06T09:30:00+03:00
-      message: Всем приветы в этом чате! Напоминалка от меня, что завтра начинается ИФТ релиза Release-20230325
+      messageRef: hello.all
+      destination: groupchat-prompt
+    - moment: 2023-03-06T09:30:05+03:00
+      messageRef: notification.before.ift
+      messageArgs: Release-20230325
       destination: groupchat-prompt
     - moment: 2023-03-07T09:30:00+03:00
-      message: Сегодня начинаем ИФТ релиза Release-20230325
+      messageRef: notification.due.ift
+      messageArgs: Release-20230325
       destination: groupchat-prompt
     - moment: 2023-03-13T09:30:00+03:00
-      message: Всем привет! Завтра начинается ПСИ релиза Release-20230325
+      messageRef: notification.before.psi
+      messageArgs: Release-20230325
       destination: groupchat-prompt
     - moment: 2023-03-14T09:30:00+03:00
-      message: Сегодня начинаем ПСИ релиза Release-20230325
+      messageRef: notification.due.psi
+      messageArgs: Release-20230325
       destination: groupchat-prompt
     # Release-20230422
     - moment: 2023-04-03T09:30:00+03:00
-      message: Всем приветы в этом чате! Напоминалка от меня, что завтра начинается ИФТ релиза Release-20230422
+      messageRef: notification.before.ift
+      messageArgs: Release-20230422
       destination: groupchat-prompt
     - moment: 2023-04-04T09:30:00+03:00
-      message: Сегодня начинаем ИФТ релиза Release-20230422
+      messageRef: notification.due.ift
+      messageArgs: Release-20230422
       destination: groupchat-prompt
     - moment: 2023-04-10T09:30:00+03:00
-      message: Всем привет! Завтра начинается ПСИ релиза Release-20230422
+      messageRef: notification.before.psi
+      messageArgs: Release-20230422
       destination: groupchat-prompt
     - moment: 2023-04-11T09:30:00+03:00
-      message: Сегодня начинаем ПСИ релиза Release-20230422
+      messageRef: notification.due.psi
+      messageArgs: Release-20230422
       destination: groupchat-prompt
     # Release-20230527
     - moment: 2023-05-09T09:30:00+03:00
-      message: Всем приветы в этом чате! Напоминалка от меня, что завтра начинается ИФТ релиза Release-20230527
+      messageRef: notification.before.ift
+      messageArgs: Release-20230527
       destination: groupchat-prompt
     - moment: 2023-05-10T09:30:00+03:00
-      message: Сегодня начинаем ИФТ релиза Release-20230527
+      messageRef: notification.due.ift
+      messageArgs: Release-20230527
       destination: groupchat-prompt
     - moment: 2023-05-15T09:30:00+03:00
-      message: Всем привет! Завтра начинается ПСИ релиза Release-20230527
+      messageRef: notification.before.psi
+      messageArgs: Release-20230527
       destination: groupchat-prompt
     - moment: 2023-05-16T09:30:00+03:00
-      message: Сегодня начинаем ПСИ релиза Release-20230527
-      destination: groupchat-prompt      
+      messageRef: notification.due.psi
+      messageArgs: Release-20230527
+      destination: groupchat-prompt
+messages:
+  - id: hello.all
+    text: Всем приветы в этом чате!
+  - id: notification.before.ift
+    text: Напоминалка от меня, что завтра начинается ИФТ релиза %s
+  - id: notification.due.ift
+    text: Как я уже говорил, сегодня начинаем ИФТ релиза %s
+  - id: notification.before.psi
+    text: Всем привет! Завтра начинается ПСИ релиза %s
+  - id: notification.due.psi
+    text: Как дела? Начинаем ПСИ релиза %s!

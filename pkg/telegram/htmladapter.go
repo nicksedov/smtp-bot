@@ -9,8 +9,8 @@ import (
 	"github.com/PuerkitoBio/goquery"
 )
 
-// TryMakeHtmlTelegramCompatible converts an HTML string to a Telegram-compatible HTML string
-func TryMakeHtmlTelegramCompatible(html string) string {
+// TryAdaptHtmlForTelegram converts an HTML string to a Telegram-compatible HTML string
+func TryAdaptHtmlForTelegram(html string) string {
 	// parse the input HTML string into a DOM tree
 	doc, err := goquery.NewDocumentFromReader(strings.NewReader(html))
 	if err != nil {

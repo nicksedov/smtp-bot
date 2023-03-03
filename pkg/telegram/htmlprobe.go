@@ -14,7 +14,7 @@ func GetHtmlBodyContent(htmlDoc string) string {
 	return html
 }
 
-func IsTelegramCompatibleHtml(text string) bool {
+func IsHtmlAdaptedForTelegram(text string) bool {
 
 	tkn := html.NewTokenizer(strings.NewReader(text))
 
