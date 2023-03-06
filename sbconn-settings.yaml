@@ -21,7 +21,8 @@ content:
   replace:
     - pattern: УВЕДОМЛЕНИЕ О КОНФИДЕНЦИАЛЬНОСТИ[^<]+
       replacement:
-schedule:
+# Calendar of scheduled events
+events:
   once:
     # Release-20230325
     - moment: 2023-03-06T09:30:00+03:00
@@ -30,6 +31,9 @@ schedule:
     - moment: 2023-03-06T09:30:05+03:00
       messageRef: notification.before.ift
       messageArgs: Release-20230325
+      destination: groupchat-prompt
+    - moment: 2023-03-07T09:30:05+03:00
+      messageRef: morning.all
       destination: groupchat-prompt
     - moment: 2023-03-07T09:30:00+03:00
       messageRef: notification.due.ift
@@ -78,6 +82,8 @@ schedule:
       messageArgs: Release-20230527
       destination: groupchat-prompt
 messages:
+  - id: morning.all
+    text: Всем доброго утра!
   - id: hello.all
     text: Всем приветы в этом чате!
   - id: notification.before.ift

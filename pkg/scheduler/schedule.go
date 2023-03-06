@@ -6,14 +6,14 @@ import (
 	"sync"
 	"time"
 
-	"github.com/nicksedov/sbconn-bot/pkg/settings"
 	"github.com/nicksedov/sbconn-bot/pkg/email"
+	"github.com/nicksedov/sbconn-bot/pkg/settings"
 )
 
 func Schedule() {
 	var schedWaitGroup sync.WaitGroup
 	var cfg = settings.GetSettings()
-	for _, t := range cfg.Schedule.Once {
+	for _, t := range cfg.Events.Once {
 		chatId, needsCaption := email.GetChatIdByAlias(t.Destination)
 		if chatId != 0 {
 			duration := time.Until(t.Moment)
@@ -30,7 +30,7 @@ func Schedule() {
 					if error != nil {
 						log.Println(error)
 					} else {
-						if (needsCaption) {
+						if needsCaption {
 							email.SendTextWithCaption("Jenkins", "Напоминание", message, chatId)
 						} else {
 							email.SendText(message, chatId)

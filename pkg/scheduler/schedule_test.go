@@ -13,14 +13,17 @@ func TestSchedule(t *testing.T) {
 	*cli.FlagConfig = "../../sbconn-settings.yaml"
 	*cli.FlagBotToken = "5730532194:AAFPluN4ENc64MuiftC076WKcQmUmMH9iBA"
 	settings := settings.GetSettings()
-	for i := 0; i < len(settings.Schedule.Once); i++ {
-		if i == 1 {
-			settings.Schedule.Once[i].Moment = time.Now().Add(time.Second)
+	now := time.Now()
+	for i := 0; i < len(settings.Events.Once); i++ {
+		if i == 0 {
+			settings.Events.Once[i].Moment = now.Add(500 * time.Millisecond)
+		} else if i == 1 {
+			settings.Events.Once[i].Moment = now.Add(1000 * time.Millisecond)
 		} else {
-			settings.Schedule.Once[i].Moment = time.Now().Add(-time.Second)
+			settings.Events.Once[i].Moment = now
 		}
-		settings.Schedule.Once[i].Destination = "testgroup"
+		settings.Events.Once[i].Destination = "testgroup"
 	}
-	fmt.Printf("Time = %s", settings.Schedule.Once[0].Moment.Local().Format(time.RFC3339))
+	fmt.Printf("Time = %s", settings.Events.Once[0].Moment.Local().Format(time.RFC3339))
 	Schedule()
 }

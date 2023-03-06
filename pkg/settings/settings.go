@@ -22,22 +22,22 @@ type Settings struct {
 		} `yaml:"emails"`
 	} `yaml:"aliases"`
 	Content struct {
-		Replace []struct{
-			Pattern string `yaml:"pattern"`
-			Replacement string  `yaml:"replacement"`
+		Replace []struct {
+			Pattern     string `yaml:"pattern"`
+			Replacement string `yaml:"replacement"`
 		} `yaml:"replace"`
 	} `yaml:"content"`
-	Schedule struct {
+	Events struct {
 		Once []struct {
 			Moment      time.Time `yaml:"moment"`
 			MessageRef  string    `yaml:"messageRef"`
 			MessageArgs string    `yaml:"messageArgs"`
 			Destination string    `yaml:"destination"`
 		} `yaml:"once"`
-	} `yaml:"schedule"`
+	} `yaml:"events"`
 	Messages []struct {
-		Id      string `yaml:"id"`
-		Text    string `yaml:"text"`
+		Id   string `yaml:"id"`
+		Text string `yaml:"text"`
 	} `yaml:"messages"`
 }
 
