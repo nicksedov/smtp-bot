@@ -32,12 +32,15 @@ events:
       messageRef: notification.before.ift
       messageArgs: Release-20230325
       destination: groupchat-prompt
-    - moment: 2023-03-07T09:30:05+03:00
+    - moment: 2023-03-07T09:30:00+03:00
       messageRef: morning.all
       destination: groupchat-prompt
-    - moment: 2023-03-07T09:30:00+03:00
+    - moment: 2023-03-07T09:30:05+03:00
       messageRef: notification.due.ift
       messageArgs: Release-20230325
+      destination: groupchat-prompt
+    - moment: 2023-03-08T10:30:00+03:00
+      messageRef: greetings.march8
       destination: groupchat-prompt
     - moment: 2023-03-13T09:30:00+03:00
       messageRef: notification.before.psi
@@ -94,3 +97,5 @@ messages:
     text: Всем привет! Завтра начинается ПСИ релиза %s
   - id: notification.due.psi
     text: Как дела? Начинаем ПСИ релиза %s!
+  - id: greetings.march8
+    text: С праздником, девчонки! Тусить с вами в этом чатике - сплошное удовольствие! 💐🥂
