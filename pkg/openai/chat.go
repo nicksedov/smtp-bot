@@ -6,6 +6,8 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+
+	"github.com/nicksedov/sbconn-bot/pkg/cli"
 )
 
 var history map[int64][]Messages = make(map[int64][]Messages)
@@ -18,9 +20,10 @@ func SendRequest(userId int64, content string) *ChatResponse {
 		fmt.Println(err)
 		return nil
 	}
+	token := *cli.FlagOpenAIToken
 	request, _ := http.NewRequest("POST", url, bytes.NewBuffer(jsonData))
 	request.Header.Set("Content-Type", "application/json; charset=UTF-8")
-	request.Header.Set("Authorization", "Bearer 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")
+	request.Header.Set("Authorization", "Bearer " + token)
 	client := &http.Client{}
 	response, error := client.Do(request)
 	if error != nil {
