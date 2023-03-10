@@ -20,7 +20,7 @@ func SendRequest(userId int64, content string) *ChatResponse {
 	}
 	request, _ := http.NewRequest("POST", url, bytes.NewBuffer(jsonData))
 	request.Header.Set("Content-Type", "application/json; charset=UTF-8")
-	request.Header.Set("Authorization", "Bearer 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")
+	request.Header.Set("Authorization", "Bearer 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")
 	client := &http.Client{}
 	response, error := client.Do(request)
 	if error != nil {

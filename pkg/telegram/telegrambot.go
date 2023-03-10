@@ -7,6 +7,7 @@ import (
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 	"github.com/nicksedov/sbconn-bot/pkg/cli"
+	"github.com/nicksedov/sbconn-bot/pkg/openai"
 )
 
 var bot *tgbotapi.BotAPI
@@ -55,6 +56,7 @@ func updatesListener(updates tgbotapi.UpdatesChannel) {
 func handleMessage(message *tgbotapi.Message) {
 	user := message.From
 	text := message.Text
+	chatId := message.Chat.ID
 
 	if user == nil {
 		return
@@ -65,11 +67,13 @@ func handleMessage(message *tgbotapi.Message) {
 
 	var err error
 	if strings.HasPrefix(text, "/") {
-		err = handleCommand(message.Chat.ID, text)
-	} else if strings.Contains(text, "RE") {
-		// This is equivalent to forwarding, without the sender's name
-		copyMsg := tgbotapi.NewCopyMessage(message.Chat.ID, message.Chat.ID, message.MessageID)
-		_, err = bot.CopyMessage(copyMsg)
+		err = handleCommand(chatId, text)
+	} else {
+		resp := openai.SendRequest(user.ID, text)
+		if len(resp.Choices) > 0 {
+			msg := tgbotapi.NewMessage(chatId, resp.Choices[0].Message.Content)
+			bot.Send(msg)
+		}
 	}
 	if err != nil {
 		log.Printf("An error occured: %s", err.Error())
