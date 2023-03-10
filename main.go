@@ -9,11 +9,17 @@ import (
 	"github.com/nicksedov/sbconn-bot/pkg/cli"
 	"github.com/nicksedov/sbconn-bot/pkg/email"
 	"github.com/nicksedov/sbconn-bot/pkg/scheduler"
+	"github.com/nicksedov/sbconn-bot/pkg/telegram"
 )
 
 func main() {
 	flag.Parse()
-	// Run background process for firing scheduled messages 
+	// Startup telegram bot process in background
+	err := telegram.InitBot()
+	if err != nil {
+		panic(err)
+	}
+	// Run background process for firing scheduled messages
 	go scheduler.Schedule()
 	// Run SMTP server process
 	cfg := smtpsrv.ServerConfig{

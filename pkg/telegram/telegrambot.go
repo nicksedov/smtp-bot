@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"log"
 	"strings"
-	"time"
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 	"github.com/nicksedov/sbconn-bot/pkg/cli"
@@ -42,39 +41,42 @@ var (
 	)
 )
 
+func InitBot() error {
+	var err error
+	bot, err = tgbotapi.NewBotAPI(*cli.FlagBotToken)
+	if err != nil {
+		return fmt.Errorf("cannot create bot API: %w", err)
+	}
+	upd := tgbotapi.NewUpdate(0)
+	upd.Timeout = 60
+	go updatesListener(bot.GetUpdatesChan(upd))
+	return nil
+}
+
 func SendMessageToChat(mc tgbotapi.Chattable) error {
-	bot, err := getBotAPI()
+	bot, err := getOrInitBot()
 	if err == nil {
 		_, err = bot.Send(mc)
 	}
 	return err
 }
 
-func getBotAPI() (*tgbotapi.BotAPI, error) {
+func getOrInitBot() (*tgbotapi.BotAPI, error) {
 	if bot == nil {
-		var err error
-		bot, err = tgbotapi.NewBotAPI(*cli.FlagBotToken)
+		err := InitBot()
 		if err != nil {
 			return nil, fmt.Errorf("cannot create bot API: %w", err)
 		}
-		u := tgbotapi.NewUpdate(0)
-		u.Timeout = 60
-		updates := bot.GetUpdatesChan(u)
-	
-		// Pass cancellable context to goroutine
-		go receiveUpdates(updates)
 	}
 	return bot, nil
 }
 
-
-func receiveUpdates(updates tgbotapi.UpdatesChannel) {
+func updatesListener(updates tgbotapi.UpdatesChannel) {
 	// `for {` means the loop is infinite until we manually stop it
 	for {
-		// receive update from channel and then handle it
+		// execution thread locks until event received
 		update := <-updates
 		handleUpdate(update)
-		time.Sleep(3 * time.Second)
 	}
 }
 
@@ -103,7 +105,7 @@ func handleMessage(message *tgbotapi.Message) {
 	var err error
 	if strings.HasPrefix(text, "/") {
 		err = handleCommand(message.Chat.ID, text)
-	} else if strings.HasPrefix(text, "Re*") {
+	} else if strings.Contains(text, "Ret") {
 		if screaming && len(text) > 0 {
 			msg := tgbotapi.NewMessage(message.Chat.ID, strings.ToUpper(text))
 			// To preserve markdown, we attach entities (bold, italic..)
@@ -165,4 +167,3 @@ func sendMenu(chatId int64) error {
 	_, err := bot.Send(msg)
 	return err
 }
-
