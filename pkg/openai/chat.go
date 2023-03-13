@@ -11,6 +11,7 @@ import (
 )
 
 var history map[int64][]Messages = make(map[int64][]Messages)
+var historyDepth int = 8
 
 func SendRequest(userId int64, content string) *ChatResponse {
 	url := "https://api.openai.com/v1/chat/completions"
@@ -45,6 +46,8 @@ func updateHistory(userId int64, role string, content string) {
 	userHist := history[userId]
 	if userHist == nil {
 		userHist = []Messages{}
+	} else if len(userHist) >= historyDepth {
+		userHist = userHist[len(userHist) - historyDepth:]
 	}
 	userHist = append(userHist, Messages{Role: role, Content: content})
 	history[userId] = userHist
