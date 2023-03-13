@@ -1,6 +1,7 @@
 package telegram
 
 import (
+	"errors"
 	"fmt"
 	"log"
 	"strings"
@@ -62,11 +63,10 @@ func handleMessage(message *tgbotapi.Message) {
 		return
 	}
 
-	// Print to console
-	log.Printf("%s wrote %s", user.FirstName, text)
-
 	var err error
-	if strings.HasPrefix(text, "/") {
+	if strings.Contains(text, "~draw") {
+		msg := tgbotapi.NewMessage(chatId, fmt.Sprintf("Processing command %s", text))
+		bot.Send(msg)
 		err = handleCommand(chatId, text)
 	} else {
 		resp := openai.SendRequest(user.ID, text)
@@ -83,11 +83,23 @@ func handleMessage(message *tgbotapi.Message) {
 // When we get a command, we react accordingly
 func handleCommand(chatId int64, command string) error {
 	var err error
-
-	switch command {
-	case "/help":
-		msg := tgbotapi.NewMessage(chatId, "GPT-3 chatbot")
-		_, err = bot.Send(msg)
+	instruction, args, found := strings.Cut(command, " ")
+	if !found {
+		msg := tgbotapi.NewMessage(chatId, fmt.Sprintf("Wrong command %s", command))
+		bot.Send(msg)
+		return errors.New("command arguments not found")
+	} else {
+		msg := tgbotapi.NewMessage(chatId, fmt.Sprintf("%s:%s", instruction, args))
+		bot.Send(msg)
+		switch instruction {
+		case "#draw":
+			resp := openai.SendImageRequest(args)
+			if len(resp.Data) > 0 {
+				url := resp.Data[0].Url
+				msg := tgbotapi.NewMessage(chatId, url)
+				bot.Send(msg)
+			}
+		}
 	}
 	return err
 }

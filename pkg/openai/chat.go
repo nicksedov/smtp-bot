@@ -13,9 +13,9 @@ import (
 var history map[int64][]Messages = make(map[int64][]Messages)
 var historyDepth int = 8
 
-func SendRequest(userId int64, content string) *ChatResponse {
+func SendRequest(userId int64, prompt string) *ChatResponse {
 	url := "https://api.openai.com/v1/chat/completions"
-	reqData := prepareRequest(userId, content)
+	reqData := prepareRequest(userId, prompt)
 	jsonData, err := json.Marshal(reqData)
 	if err != nil {
 		fmt.Println(err)
