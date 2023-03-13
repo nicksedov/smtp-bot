@@ -64,9 +64,7 @@ func handleMessage(message *tgbotapi.Message) {
 	}
 
 	var err error
-	if strings.Contains(text, "~draw") {
-		msg := tgbotapi.NewMessage(chatId, fmt.Sprintf("Processing command %s", text))
-		bot.Send(msg)
+	if strings.HasPrefix(text, "/") {
 		err = handleCommand(chatId, text)
 	} else {
 		resp := openai.SendRequest(user.ID, text)
@@ -89,14 +87,14 @@ func handleCommand(chatId int64, command string) error {
 		bot.Send(msg)
 		return errors.New("command arguments not found")
 	} else {
-		msg := tgbotapi.NewMessage(chatId, fmt.Sprintf("%s:%s", instruction, args))
-		bot.Send(msg)
 		switch instruction {
-		case "#draw":
+		case "/draw":
 			resp := openai.SendImageRequest(args)
 			if len(resp.Data) > 0 {
 				url := resp.Data[0].Url
-				msg := tgbotapi.NewMessage(chatId, url)
+				msg := tgbotapi.NewMessage(chatId, fmt.Sprintf("<a href=\"%s\">&#8205;</a>", url))
+				msg.ParseMode = "HTML"
+				msg.DisableWebPagePreview = false
 				bot.Send(msg)
 			}
 		}
