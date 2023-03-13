@@ -29,7 +29,7 @@ func SendImageRequest(prompt string) *ImageResponse {
 	}
 	defer response.Body.Close()
 	body, _ := ioutil.ReadAll(response.Body)
-	resp := &ImageResponse{}
+	resp := &ImageResponse{HttpStatus: response.StatusCode}
 	error = json.Unmarshal(body, resp)
 	if error != nil {
 		fmt.Println(err)

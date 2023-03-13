@@ -81,7 +81,7 @@ func handleMessage(message *tgbotapi.Message) {
 // When we get a command, we react accordingly
 func handleCommand(chatId int64, command string) error {
 	var err error
-	instruction, args, found := strings.Cut(command, " ")
+	instruction, args, found := cut(command, " ")
 	if !found {
 		msg := tgbotapi.NewMessage(chatId, fmt.Sprintf("Wrong command %s", command))
 		bot.Send(msg)
@@ -96,8 +96,18 @@ func handleCommand(chatId int64, command string) error {
 				msg.ParseMode = "HTML"
 				msg.DisableWebPagePreview = false
 				bot.Send(msg)
+			} else {
+				msg := tgbotapi.NewMessage(chatId, fmt.Sprintf("Got empty response with status %d", resp.HttpStatus))
+				bot.Send(msg)
 			}
 		}
 	}
 	return err
+}
+
+func cut(s, sep string) (before, after string, found bool) {
+	if i := strings.Index(s, sep); i >= 0 {
+		return s[:i], s[i+len(sep):], true
+	}
+	return s, "", false
 }
