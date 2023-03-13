@@ -3,12 +3,10 @@ package openai
 import (
 	"fmt"
 	"testing"
-
-	"github.com/nicksedov/sbconn-bot/pkg/cli"
 )
 
 func TestSendImageRequest(t *testing.T) {
-	*cli.FlagOpenAIToken = "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"
+	//Must initialize *cli.FlagOpenAIToken
 	prompt := "Ugly cow is screaming"
 	resp := SendImageRequest(prompt)
 	choices := resp.Data

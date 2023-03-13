@@ -6,6 +6,7 @@ import (
 )
 
 func TestSendRequest(t *testing.T) {
+	//Must initialize *cli.FlagOpenAIToken
 	resp := SendRequest(5093432423, "Hello buddy!")
 	choices := resp.Choices
 	if len(choices) > 0 {
