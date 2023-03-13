@@ -92,7 +92,7 @@ func handleCommand(chatId int64, command string) error {
 			resp := openai.SendImageRequest(args)
 			if len(resp.Data) > 0 {
 				url := resp.Data[0].Url
-				msg := tgbotapi.NewMessage(chatId, fmt.Sprintf("<a href=\"%s\">&#8205;</a>", url))
+				msg := tgbotapi.NewMessage(chatId, fmt.Sprintf("<a href='%s'>&#8205;</a>%s", url, args))
 				msg.ParseMode = "HTML"
 				msg.DisableWebPagePreview = false
 				bot.Send(msg)
