@@ -13,9 +13,9 @@ import (
 var history map[int64][]Messages = make(map[int64][]Messages)
 var historyDepth int = 8
 
-func SendRequest(userId int64, prompt string) *ChatResponse {
+func SendRequest(chatId int64, prompt string) *ChatResponse {
 	url := "https://api.openai.com/v1/chat/completions"
-	reqData := prepareRequest(userId, prompt)
+	reqData := prepareRequest(chatId, prompt)
 	jsonData, err := json.Marshal(reqData)
 	if err != nil {
 		fmt.Println(err)
@@ -38,7 +38,7 @@ func SendRequest(userId int64, prompt string) *ChatResponse {
 		fmt.Println(err)
 		return resp
 	}
-	processResponse(userId, resp)
+	processResponse(chatId, resp)
 	return resp
 }
 
@@ -53,19 +53,19 @@ func updateHistory(userId int64, role string, content string) {
 	history[userId] = userHist
 }
 
-func prepareRequest(userId int64, cotent string) *ChatRequest {
-	updateHistory(userId, "user", cotent)
+func prepareRequest(chatId int64, content string) *ChatRequest {
+	updateHistory(chatId, "user", content)
 	req := ChatRequest{
 		Model:    "gpt-3.5-turbo",
-		Messages: history[userId],
+		Messages: history[chatId],
 	}
 	return &req
 }
 
-func processResponse(userId int64, resp *ChatResponse) {
+func processResponse(chatId int64, resp *ChatResponse) {
 	choices := resp.Choices
 	if len(choices) > 0 {
 		msg := choices[0]
-		updateHistory(userId, msg.Message.Role, msg.Message.Content)
+		updateHistory(chatId, msg.Message.Role, msg.Message.Content)
 	}
 }

@@ -1,14 +1,13 @@
 package telegram
 
 import (
-	"errors"
 	"fmt"
-	"log"
 	"strings"
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 	"github.com/nicksedov/sbconn-bot/pkg/cli"
 	"github.com/nicksedov/sbconn-bot/pkg/openai"
+	"github.com/nicksedov/sbconn-bot/pkg/settings"
 )
 
 var bot *tgbotapi.BotAPI
@@ -55,58 +54,84 @@ func updatesListener(updates tgbotapi.UpdatesChannel) {
 }
 
 func handleMessage(message *tgbotapi.Message) {
-	user := message.From
 	text := message.Text
 	chatId := message.Chat.ID
-
-	if user == nil {
+	if chatId == 0 {
 		return
 	}
-
-	var err error
+	text = strings.TrimSpace(text)
 	if strings.HasPrefix(text, "/") {
-		err = handleCommand(chatId, text)
+		handleCommand(chatId, text)
 	} else {
-		resp := openai.SendRequest(user.ID, text)
-		if len(resp.Choices) > 0 {
-			msg := tgbotapi.NewMessage(chatId, resp.Choices[0].Message.Content)
-			bot.Send(msg)
-		}
-	}
-	if err != nil {
-		log.Printf("An error occured: %s", err.Error())
+		processChat(chatId, text)
 	}
 }
 
 // When we get a command, we react accordingly
-func handleCommand(chatId int64, command string) error {
-	var err error
-	instruction, args, found := cut(command, " ")
-	if !found {
-		msg := tgbotapi.NewMessage(chatId, fmt.Sprintf("Wrong command %s", command))
-		bot.Send(msg)
-		return errors.New("command arguments not found")
+func handleCommand(chatId int64, command string) {
+	instruction, args, argsFound := cut(command, " ")
+	instruction = strings.ToLower(instruction)
+	if !argsFound {
+		switch instruction {
+		case "/help", "/about":
+			processHelp(chatId)
+		default:
+			msg := tgbotapi.NewMessage(chatId, fmt.Sprintf("Unsupported command '%s'", command))
+			bot.Send(msg)
+		}
 	} else {
 		switch instruction {
 		case "/draw":
-			resp := openai.SendImageRequest(args)
-			if len(resp.Data) > 0 {
-				url := resp.Data[0].Url
-				msg := tgbotapi.NewMessage(chatId, fmt.Sprintf("<a href='%s'>&#8205;</a>%s", url, args))
-				msg.ParseMode = "HTML"
-				msg.DisableWebPagePreview = false
-				bot.Send(msg)
-			} else {
-				msg := tgbotapi.NewMessage(chatId, fmt.Sprintf("Got empty response with status %d", resp.HttpStatus))
-				bot.Send(msg)
-			}
+			processDraw(chatId, args)
+		case "/chat":
+			processChat(chatId, args)
+		default:
+			msg := tgbotapi.NewMessage(chatId, fmt.Sprintf("Unsupported command '%s'", command))
+			bot.Send(msg)
 		}
 	}
-	return err
+}
+
+func processChat(chatId int64, prompt string) {
+	resp := openai.SendRequest(chatId, prompt)
+	if len(resp.Choices) > 0 {
+		msg := tgbotapi.NewMessage(chatId, resp.Choices[0].Message.Content)
+		bot.Send(msg)
+	}
+}
+
+func processDraw(chatId int64, prompt string) {
+	resp := openai.SendImageRequest(prompt)
+	if len(resp.Data) > 0 {
+		url := resp.Data[0].Url
+		msg := tgbotapi.NewMessage(chatId, fmt.Sprintf("<a href='%s'>&#8205;</a>%s", url, prompt))
+		msg.ParseMode = "HTML"
+		msg.DisableWebPagePreview = false
+		bot.Send(msg)
+	} else {
+		msg := tgbotapi.NewMessage(chatId, fmt.Sprintf("Got empty response with HTTP status %d", resp.HttpStatus))
+		bot.Send(msg)
+	}
+}
+
+func processHelp(chatId int64) {
+	tags := []string{
+		"about.me", 
+		"about.groupchat.details", 
+		"about.privatechat.details",
+		"about.draw.details"}
+	for _, msgRef := range tags {
+		text, err := settings.GetMessage(msgRef)
+		if err != nil {
+			text = err.Error()
+		}
+		msg := tgbotapi.NewMessage(chatId, text)
+		bot.Send(msg)
+	}
 }
 
 func cut(s, sep string) (before, after string, found bool) {
-	if i := strings.Index(s, sep); i >= 0 {
+	if i := strings.Index(s, sep); i >= 0 && i+len(sep) < len(s) {
 		return s[:i], s[i+len(sep):], true
 	}
 	return s, "", false
