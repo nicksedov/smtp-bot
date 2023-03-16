@@ -69,26 +69,34 @@ func handleMessage(message *tgbotapi.Message) {
 
 // When we get a command, we react accordingly
 func handleCommand(chatId int64, command string) {
-	instruction, args, argsFound := cut(command, " ")
-	instruction = strings.ToLower(instruction)
+	commandToken, args, argsFound := cut(command, " ")
+	commandToken = strings.ToLower(commandToken)
+	// For named commands like /help@sbconn_bot
+	commandBase, _, _ := cut(commandToken, "@")
+
+	var msgText string
 	if !argsFound {
-		switch instruction {
+		switch commandBase {
 		case "/help", "/about":
 			processHelp(chatId)
+		case "/draw", "/chat":
+			msgText, _ = settings.GetMessage("errors.command.argrequired", command)
 		default:
-			msg := tgbotapi.NewMessage(chatId, fmt.Sprintf("Unsupported command '%s'", command))
-			bot.Send(msg)
+			msgText, _ = settings.GetMessage("errors.command.unsupported", command)
 		}
 	} else {
-		switch instruction {
+		switch commandBase {
 		case "/draw":
 			processDraw(chatId, args)
 		case "/chat":
 			processChat(chatId, args)
 		default:
-			msg := tgbotapi.NewMessage(chatId, fmt.Sprintf("Unsupported command '%s'", command))
-			bot.Send(msg)
+			msgText, _ = settings.GetMessage("errors.command.unsupported", command)
 		}
+	}
+	if msgText != "" {
+		msg := tgbotapi.NewMessage(chatId, msgText)
+		bot.Send(msg)
 	}
 }
 
@@ -109,7 +117,8 @@ func processDraw(chatId int64, prompt string) {
 		msg.DisableWebPagePreview = false
 		bot.Send(msg)
 	} else {
-		msg := tgbotapi.NewMessage(chatId, fmt.Sprintf("Got empty response with HTTP status %d", resp.HttpStatus))
+		msgText, _ := settings.GetMessage("errors.command.badresponse", fmt.Sprint(resp.HttpStatus))
+		msg := tgbotapi.NewMessage(chatId, msgText)
 		bot.Send(msg)
 	}
 }
