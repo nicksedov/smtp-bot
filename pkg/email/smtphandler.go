@@ -16,14 +16,12 @@ func SmtpHandler(c *smtpsrv.Context) error {
 		return fmt.Errorf("cannot read your message: %w", err)
 	}
 	to := transformStdAddressToEmailAddress(msg.To)
-	chatId, needsCaption := lookupChat(to)
+	cc := transformStdAddressToEmailAddress(msg.Cc)
+	bcc := transformStdAddressToEmailAddress(msg.Bcc)
+	addresses := append(append(to, cc...), bcc...)
+	chatId, needsCaption := lookupChat(addresses)
 	if chatId == 0 {
-		cc := transformStdAddressToEmailAddress(msg.Cc)
-		chatId, needsCaption = lookupChat(cc)
-	}
-	if chatId == 0 {
-		bcc := transformStdAddressToEmailAddress(msg.Bcc)
-		chatId, needsCaption = lookupChat(bcc)
+		return nil
 	}
 
 	from := decodeRFC2047(strings.Join(getEmailAliases(msg.From), "; "))
