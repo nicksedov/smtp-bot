@@ -22,34 +22,20 @@ content:
     - pattern: УВЕДОМЛЕНИЕ О КОНФИДЕНЦИАЛЬНОСТИ[^<]+
       replacement:
 # Calendar of scheduled events
+# Supported date&time formats https://go.dev/src/time/format.go
 events:
   once:
-    # Release-20230325
-    - moment: 2023-03-06T09:30:00+03:00
+    # Test
+    - moment: 2023-04-14T21:54:00+03:00
+      promptRef: prompt.hello
       messageRef: hello.all
-      destination: groupchat-prompt
-    - moment: 2023-03-06T09:30:05+03:00
+      destination: testgroup-prompt
+    - moment: 2023-04-14T21:54:30+03:00
+      promptRef: prompt.date
       messageRef: notification.before.ift
-      messageArgs: Release-20230325
-      destination: groupchat-prompt
-    - moment: 2023-03-07T09:30:00+03:00
-      messageRef: morning.all
-      destination: groupchat-prompt
-    - moment: 2023-03-07T09:30:05+03:00
-      messageRef: notification.due.ift
-      messageArgs: Release-20230325
-      destination: groupchat-prompt
-    - moment: 2023-03-08T10:30:00+03:00
-      messageRef: greetings.march8
-      destination: groupchat-prompt
-    - moment: 2023-03-13T09:30:00+03:00
-      messageRef: notification.before.psi
-      messageArgs: Release-20230325
-      destination: groupchat-prompt
-    - moment: 2023-03-14T09:30:00+03:00
-      messageRef: notification.due.psi
-      messageArgs: Release-20230325
-      destination: groupchat-prompt
+      messageArgs: 14 апреля
+      destination: testgroup-prompt
+
     # Release-20230422
     - moment: 2023-04-03T09:30:00+03:00
       messageRef: notification.before.ift
@@ -84,6 +70,40 @@ events:
       messageRef: notification.due.psi
       messageArgs: Release-20230527
       destination: groupchat-prompt
+    # Release-20230617
+    - moment: 2023-05-29T09:30:00+03:00
+      messageRef: notification.before.ift
+      messageArgs: Release-20230617
+      destination: groupchat-prompt
+    - moment: 2023-05-30T09:30:00+03:00
+      messageRef: notification.due.ift
+      messageArgs: Release-20230617
+      destination: groupchat-prompt
+    - moment: 2023-06-05T09:30:00+03:00
+      messageRef: notification.before.psi
+      messageArgs: Release-20230617
+      destination: groupchat-prompt
+    - moment: 2023-06-06T09:30:00+03:00
+      messageRef: notification.due.psi
+      messageArgs: Release-20230617
+      destination: groupchat-prompt
+    # Release-20230708
+    - moment: 2023-06-19T09:30:00+03:00
+      messageRef: notification.before.ift
+      messageArgs: Release-20230708
+      destination: groupchat-prompt
+    - moment: 2023-06-20T09:30:00+03:00
+      messageRef: notification.due.ift
+      messageArgs: Release-20230708
+      destination: groupchat-prompt
+    - moment: 2023-06-26T09:30:00+03:00
+      messageRef: notification.before.psi
+      messageArgs: Release-20230708
+      destination: groupchat-prompt
+    - moment: 2023-06-27T09:30:00+03:00
+      messageRef: notification.due.psi
+      messageArgs: Release-20230708
+      destination: groupchat-prompt
 messages:
   - id: about.me
     text: Я - чат-бот SberConnect. Создан на базе ChatGPT - большой языковой модели, разработанной компанией OpenAI. Я обучен понимать и генерировать естественный язык, чтобы помогать людям в получении ответов на их вопросы и решении задач. Я могу отвечать на различные вопросы, давать советы и предоставлять информацию по различным темам.
@@ -110,9 +130,12 @@ messages:
   - id: errors.command.unsupported
     text: Команда %s не поддерживается
   - id: errors.command.argrequired
-    text: Команда %s используется только совместно с текстом
+    text: Команда %s используется только совместно с текстом. Если вы выбираете команду из меню чата, вызывайте ее долгим нажатием, тогда будет возможность ввести текст перед отправкой.
   - id: errors.command.badresponse
     text: Не получилось сформировать ответ с помощью ChatGPT (возвращен HTTP-статус %d)
-prompts:
-  - id: notification.before.ift
-    text: Напиши сообщение в 20-30 слов о том, что завтра начинается стабилизация релиза SberConnect. В конце сообщи, что будет произведен выпуск дистрибутива и установка на стенд ИФТ.
+  - id: prompt.hello
+    text: Напиши короткое неформальное приветственное сообщение для команды SberConnect
+  - id: prompt.date
+    text: Расскажи о том, какие праздники и знаменательные события отмечаются в день %s
+  - id: prompt.notification.before.ift
+    text: Напиши сообщение в 20-30 слов о том, что завтра начинается стабилизация релиза SberConnect %s. В конце сообщи, что будет произведен выпуск дистрибутива и установка на стенд ИФТ.

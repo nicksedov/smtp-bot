@@ -2,16 +2,26 @@ package scheduler
 
 import (
 	"fmt"
+	"io/ioutil"
+	"log"
 	"testing"
 	"time"
 
+	"github.com/go-yaml/yaml"
 	"github.com/nicksedov/sbconn-bot/pkg/cli"
 	"github.com/nicksedov/sbconn-bot/pkg/settings"
 )
 
+type Secrets struct {
+	BotToken string    `yaml:"BotToken"`
+	OpenAIToken string `yaml:"OpenAIToken"`
+}
+
 func TestSchedule(t *testing.T) {
 	*cli.FlagConfig = "../../sbconn-settings.yaml"
-	*cli.FlagBotToken = "5730532194:AAFPluN4ENc64MuiftC076WKcQmUmMH9iBA"
+	secrets := getSecrets()
+	*cli.FlagBotToken = secrets.BotToken
+	*cli.FlagOpenAIToken = secrets.OpenAIToken
 	settings := settings.GetSettings()
 	now := time.Now()
 	for i := 0; i < len(settings.Events.Once); i++ {
@@ -26,4 +36,16 @@ func TestSchedule(t *testing.T) {
 	}
 	fmt.Printf("Time = %s", settings.Events.Once[0].Moment.Local().Format(time.RFC3339))
 	Schedule()
+}
+
+func getSecrets() Secrets {
+	secrets := Secrets{}
+	yfile, ioErr := ioutil.ReadFile("../../secrets.yaml")
+	if ioErr == nil {
+		ymlErr := yaml.Unmarshal(yfile, &secrets)
+		if ymlErr != nil {
+			log.Fatal(ymlErr)
+		}
+	}
+	return secrets
 }

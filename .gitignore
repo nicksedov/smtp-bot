@@ -9,3 +9,5 @@ vendor
 sbconn-bot
 sbconn-bot.exe
 deploy.sh
+
+secrets.yaml

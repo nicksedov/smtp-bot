@@ -30,6 +30,7 @@ type Settings struct {
 	Events struct {
 		Once []struct {
 			Moment      time.Time `yaml:"moment"`
+			PromptRef   string    `yaml:"promptRef"`
 			MessageRef  string    `yaml:"messageRef"`
 			MessageArgs string    `yaml:"messageArgs"`
 			Destination string    `yaml:"destination"`
