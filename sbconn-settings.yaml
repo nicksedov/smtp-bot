@@ -25,14 +25,14 @@ content:
 # Supported date&time formats https://go.dev/src/time/format.go
 events:
   once:
-    # Monday 16 Apr 2023
-    - moment: 2023-04-16T09:30:00+03:00
+    # Monday 17 Apr 2023
+    - moment: 2023-04-17T09:30:00+03:00
       promptRef: have.a.nice.day
       destination: groupchat-prompt
-    - moment: 2023-04-16T09:31:00+03:00
+    - moment: 2023-04-17T09:31:00+03:00
       promptRef: current.date
       destination: groupchat-prompt
-      messageArgs: 16 апреля
+      messageArgs: 17 апреля
 
     # Release-20230527
     - moment: 2023-05-09T09:30:00+03:00
