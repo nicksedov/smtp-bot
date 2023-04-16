@@ -25,37 +25,18 @@ content:
 # Supported date&time formats https://go.dev/src/time/format.go
 events:
   once:
-    # Test
-    - moment: 2023-04-14T21:54:00+03:00
-      promptRef: prompt.hello
-      messageRef: hello.all
-      destination: testgroup-prompt
-    - moment: 2023-04-14T21:54:30+03:00
-      promptRef: prompt.date
-      messageRef: notification.before.ift
-      messageArgs: 14 апреля
-      destination: testgroup-prompt
+    # Monday 16 Apr 2023
+    - moment: 2023-04-16T09:30:00+03:00
+      promptRef: have.a.nice.day
+      destination: groupchat-prompt
+    - moment: 2023-04-16T09:31:00+03:00
+      promptRef: current.date
+      destination: groupchat-prompt
+      messageArgs: 16 апреля
 
-    # Release-20230422
-    - moment: 2023-04-03T09:30:00+03:00
-      messageRef: notification.before.ift
-      messageArgs: Release-20230422
-      destination: groupchat-prompt
-    - moment: 2023-04-04T09:30:00+03:00
-      messageRef: notification.due.ift
-      messageArgs: Release-20230422
-      destination: groupchat-prompt
-    - moment: 2023-04-10T09:30:00+03:00
-      messageRef: notification.before.psi
-      messageArgs: Release-20230422
-      destination: groupchat-prompt
-    - moment: 2023-04-11T09:30:00+03:00
-      messageRef: notification.due.psi
-      messageArgs: Release-20230422
-      destination: groupchat-prompt
     # Release-20230527
     - moment: 2023-05-09T09:30:00+03:00
-      messageRef: notification.before.ift
+      promptRef: notification.before.ift
       messageArgs: Release-20230527
       destination: groupchat-prompt
     - moment: 2023-05-10T09:30:00+03:00
@@ -70,9 +51,10 @@ events:
       messageRef: notification.due.psi
       messageArgs: Release-20230527
       destination: groupchat-prompt
+
     # Release-20230617
     - moment: 2023-05-29T09:30:00+03:00
-      messageRef: notification.before.ift
+      promptRef: notification.before.ift
       messageArgs: Release-20230617
       destination: groupchat-prompt
     - moment: 2023-05-30T09:30:00+03:00
@@ -87,9 +69,10 @@ events:
       messageRef: notification.due.psi
       messageArgs: Release-20230617
       destination: groupchat-prompt
+
     # Release-20230708
     - moment: 2023-06-19T09:30:00+03:00
-      messageRef: notification.before.ift
+      promptRef: notification.before.ift
       messageArgs: Release-20230708
       destination: groupchat-prompt
     - moment: 2023-06-20T09:30:00+03:00
@@ -104,6 +87,7 @@ events:
       messageRef: notification.due.psi
       messageArgs: Release-20230708
       destination: groupchat-prompt
+
 messages:
   - id: about.me
     text: Я - чат-бот SberConnect. Создан на базе ChatGPT - большой языковой модели, разработанной компанией OpenAI. Я обучен понимать и генерировать естественный язык, чтобы помогать людям в получении ответов на их вопросы и решении задач. Я могу отвечать на различные вопросы, давать советы и предоставлять информацию по различным темам.
@@ -113,29 +97,27 @@ messages:
     text: Можно написать мне лично (@sbconn_bot), тогда можно обойтись без команды /chat в начале сообщения.
   - id: about.draw.details
     text: Можно попросить меня нарисовать картинку по текстовому описанию с помощью команды /draw. Например, /draw Танцующий робот.
-  - id: morning.all
-    text: Всем доброго утра!
-  - id: hello.all
-    text: Всем приветы в этом чате!
-  - id: notification.before.ift
-    text: Напоминалка от меня, что завтра начинается ИФТ релиза %s
   - id: notification.due.ift
     text: Как я уже говорил, сегодня начинаем ИФТ релиза %s
   - id: notification.before.psi
     text: Всем привет! Завтра начинается ПСИ релиза %s
   - id: notification.due.psi
     text: Как дела? Начинаем ПСИ релиза %s!
-  - id: greetings.march8
-    text: С праздником, девчонки! Тусить с вами в этом чатике - сплошное удовольствие! 💐🥂
   - id: errors.command.unsupported
     text: Команда %s не поддерживается
   - id: errors.command.argrequired
     text: Команда %s используется только совместно с текстом. Если вы выбираете команду из меню чата, вызывайте ее долгим нажатием, тогда будет возможность ввести текст перед отправкой.
   - id: errors.command.badresponse
     text: Не получилось сформировать ответ с помощью ChatGPT (возвращен HTTP-статус %d)
-  - id: prompt.hello
-    text: Напиши короткое неформальное приветственное сообщение для команды SberConnect
-  - id: prompt.date
-    text: Расскажи о том, какие праздники и знаменательные события отмечаются в день %s
-  - id: prompt.notification.before.ift
-    text: Напиши сообщение в 20-30 слов о том, что завтра начинается стабилизация релиза SberConnect %s. В конце сообщи, что будет произведен выпуск дистрибутива и установка на стенд ИФТ.
+
+# Prompts are text queries sent to ChatGPT. The responses generated by ChatGPT are published by telegram bot in chats
+prompts:
+  - id: have.a.nice.day
+    prompt: Напиши короткое пожелание хорошего дня для команды SberConnect
+    altText: Всем хорошего дня! 
+  - id: current.date
+    prompt: Расскажи про интересный факт, связанный с датой %s
+    altText: Хотел рассказать что-нибудь интересное про дату %s, но ничего не вспоминается 
+  - id: notification.before.ift
+    prompt: Напиши краткое сообщение о том, что завтра начинается стабилизация релиза SberConnect %s. В конце сообщи, что будет произведен выпуск дистрибутива и установка на стенд ИФТ.
+    altText: Напоминалка от меня, что завтра начинается ИФТ релиза %s

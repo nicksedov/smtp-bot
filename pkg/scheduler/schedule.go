@@ -27,15 +27,16 @@ func Schedule() {
 					if msgArgs != "" {
 						varArgs = strings.Split(msgArgs, ",")
 					}
-					message, error := settings.GetMessage(priorityChoice(promptRef, msgRef), varArgs...)
-					if error != nil {
-						log.Println(error)
+					var message string
+					var err error
+					if promptRef != "" {
+						message = openai.GetMessageByPrompt(promptRef, varArgs...)
 					} else {
-						if promptRef != "" {
-							aiResp := openai.SendRequest(0, message)
-							altText,_ := settings.GetMessage(msgRef, varArgs...)
-							message = processResponse(aiResp, altText)
-						} 
+						message, err = settings.GetMessage(priorityChoice(promptRef, msgRef), varArgs...)
+					}
+					if err != nil {
+						log.Println(err)
+					} else {
 						if needsCaption {
 							email.SendTextWithCaption("Jenkins", "Напоминание", message, chatId)
 						} else {

@@ -40,6 +40,11 @@ type Settings struct {
 		Id   string `yaml:"id"`
 		Text string `yaml:"text"`
 	} `yaml:"messages"`
+	Prompts []struct {
+		Id      string `yaml:"id"`
+		Prompt  string `yaml:"prompt"`
+		AltText string `yaml:"altText"`
+	} `yaml:"prompts"`
 }
 
 var settings Settings = Settings{}
