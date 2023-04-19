@@ -32,7 +32,7 @@ func Schedule() {
 					if promptRef != "" {
 						message = openai.GetMessageByPrompt(promptRef, varArgs...)
 					} else {
-						message, err = settings.GetMessage(priorityChoice(promptRef, msgRef), varArgs...)
+						message, err = settings.GetMessage(msgRef, varArgs...)
 					}
 					if err != nil {
 						log.Println(err)
@@ -48,20 +48,4 @@ func Schedule() {
 		}
 	}
 	schedWaitGroup.Wait()
-}
-
-func priorityChoice(primary string, secondary string) string {
-	if primary != "" { 
-		return primary 
-	} else {
-		return secondary
-	}
-}
-
-func processResponse(resp *openai.ChatResponse, altText string) string {
-	choices := resp.Choices
-	if len(choices) > 0 {
-		return choices[0].Message.Content
-	}
-	return altText
 }

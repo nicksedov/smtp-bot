@@ -25,14 +25,24 @@ content:
 # Supported date&time formats https://go.dev/src/time/format.go
 events:
   once:
-    # Monday 17 Apr 2023
-    - moment: 2023-04-17T09:30:00+03:00
+    # Commons
+    - moment: 2023-04-17T08:29:00+03:00
       promptRef: have.a.nice.day
       destination: groupchat-prompt
-    - moment: 2023-04-17T09:31:00+03:00
+    - moment: 2023-04-17T08:31:00+03:00
       promptRef: current.date
       destination: groupchat-prompt
       messageArgs: 17 апреля
+
+    # Release-20230422
+    - moment: 2023-04-19T09:55:00+03:00
+      promptRef: best.wishes.for.psi
+      destination: groupchat-prompt
+      messageArgs: Release-20230422
+    - moment: 2023-04-19T10:07:50+03:00
+      promptRef: happy.birthday
+      destination: testgroup-prompt
+      messageArgs: Марине
 
     # Release-20230527
     - moment: 2023-05-09T09:30:00+03:00
@@ -40,7 +50,7 @@ events:
       messageArgs: Release-20230527
       destination: groupchat-prompt
     - moment: 2023-05-10T09:30:00+03:00
-      messageRef: notification.due.ift
+      promptRef: notification.due.ift
       messageArgs: Release-20230527
       destination: groupchat-prompt
     - moment: 2023-05-15T09:30:00+03:00
@@ -58,7 +68,7 @@ events:
       messageArgs: Release-20230617
       destination: groupchat-prompt
     - moment: 2023-05-30T09:30:00+03:00
-      messageRef: notification.due.ift
+      promptRef: notification.due.ift
       messageArgs: Release-20230617
       destination: groupchat-prompt
     - moment: 2023-06-05T09:30:00+03:00
@@ -76,7 +86,7 @@ events:
       messageArgs: Release-20230708
       destination: groupchat-prompt
     - moment: 2023-06-20T09:30:00+03:00
-      messageRef: notification.due.ift
+      promptRef: notification.due.ift
       messageArgs: Release-20230708
       destination: groupchat-prompt
     - moment: 2023-06-26T09:30:00+03:00
@@ -97,12 +107,6 @@ messages:
     text: Можно написать мне лично (@sbconn_bot), тогда можно обойтись без команды /chat в начале сообщения.
   - id: about.draw.details
     text: Можно попросить меня нарисовать картинку по текстовому описанию с помощью команды /draw. Например, /draw Танцующий робот.
-  - id: notification.due.ift
-    text: Как я уже говорил, сегодня начинаем ИФТ релиза %s
-  - id: notification.before.psi
-    text: Всем привет! Завтра начинается ПСИ релиза %s
-  - id: notification.due.psi
-    text: Как дела? Начинаем ПСИ релиза %s!
   - id: errors.command.unsupported
     text: Команда %s не поддерживается
   - id: errors.command.argrequired
@@ -119,5 +123,20 @@ prompts:
     prompt: Расскажи про интересный факт, связанный с датой %s
     altText: Хотел рассказать что-нибудь интересное про дату %s, но ничего не вспоминается 
   - id: notification.before.ift
-    prompt: Напиши краткое сообщение о том, что завтра начинается стабилизация релиза SberConnect %s. В конце сообщи, что будет произведен выпуск дистрибутива и установка на стенд ИФТ.
+    prompt: Напиши краткое сообщение команде SberConnect о том, что завтра начинается стабилизация релиза SberConnect %s. В конце сообщи, что будет произведен выпуск дистрибутива и установка на стенд ИФТ.
     altText: Напоминалка от меня, что завтра начинается ИФТ релиза %s
+  - id: notification.due.ift
+    prompt: Напиши краткое сообщение команде SberConnect о том, что сегодня началось ИФТ релиза SberConnect %s.
+    altText: Как я уже говорил, сегодня начинаем ИФТ релиза %s
+  - id: notification.before.psi
+    prompt: Напиши краткое сообщение команде SberConnect о том, что сегодня началось ПСИ релиза SberConnect %s.
+    altText: Всем привет! Завтра начинается ПСИ релиза %s
+  - id: notification.due.psi
+    prompt: Напиши краткое сообщение команде SberConnect о том, что сегодня началось ПСИ релиза SberConnect %s.
+    altText: Как дела? Начинаем ПСИ релиза %s!
+  - id: best.wishes.for.psi
+    prompt: Напиши пожелание успешного прохождения ПСИ релиза %s команде SberConnect
+    altText: Желаю команде SberConnect успешного прохождения ПСИ релиза %s!
+  - id: happy.birthday
+    prompt: Напиши поздравления %s с днем рождения от лица всей команды SberConnect
+    altText: С днем рожнения, %s!
