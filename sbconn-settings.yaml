@@ -39,10 +39,10 @@ events:
       promptRef: best.wishes.for.psi
       destination: groupchat-prompt
       messageArgs: Release-20230422
-    - moment: 2023-04-19T10:07:50+03:00
-      promptRef: happy.birthday
-      destination: testgroup-prompt
-      messageArgs: Марине
+    - moment: 2023-04-19T12:10:30+03:00
+      promptRef: greetings.for.psi
+      destination: groupchat-prompt
+      messageArgs: Release-20230422
 
     # Release-20230527
     - moment: 2023-05-09T09:30:00+03:00
@@ -137,6 +137,9 @@ prompts:
   - id: best.wishes.for.psi
     prompt: Напиши пожелание успешного прохождения ПСИ релиза %s команде SberConnect
     altText: Желаю команде SberConnect успешного прохождения ПСИ релиза %s!
+  - id: greetings.for.psi
+    prompt: Напиши поздравления с успешным прохождения ПСИ релиза %s команде SberConnect, и поблагодари всех принимавших участие в подготовке релиза. В конце напиши для разработчиков, что будет произведено влитие релизной ветки в develop
+    altText: Поздравляю команду SberConnect успешным прохождения ПСИ релиза %s!
   - id: happy.birthday
     prompt: Напиши поздравления %s с днем рождения от лица всей команды SberConnect
     altText: С днем рожнения, %s!
