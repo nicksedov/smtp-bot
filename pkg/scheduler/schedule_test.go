@@ -22,19 +22,20 @@ func TestSchedule(t *testing.T) {
 	secrets := getSecrets()
 	*cli.FlagBotToken = secrets.BotToken
 	*cli.FlagOpenAIToken = secrets.OpenAIToken
-	settings := settings.GetSettings()
-	settings.Events.Once = settings.Events.Once[0:2] // Drop all records except two
+	cfg := settings.GetSettings()
+	cfg.Events.Once = cfg.Events.Once[0:2] // Drop all records except two
+	
 	now := time.Now()
 	fmt.Printf("Time = %s", now.Local().Format(time.RFC3339))
-	event := &settings.Events.Once[0]
+	event := &cfg.Events.Once[0]
 	event.Destination = "testgroup-prompt"
 	event.Moment = now.Add(500 * time.Millisecond)
 	event.PromptRef = "have.a.nice.day"
-	event = &settings.Events.Once[1]
+	event = &cfg.Events.Once[1]
 	event.Destination = "testgroup-prompt"
-	event.Moment = now.Add(2000 * time.Millisecond)
+	event.Moment = now.Add(1500 * time.Millisecond)
 	event.PromptRef = "current.date"
-	event.MessageArgs = time.Now().Format("January-01")
+	event.MessageArgs = time.Now().Format("January 02")
 	Schedule()
 }
 

@@ -54,11 +54,11 @@ events:
       messageArgs: Release-20230527
       destination: groupchat-prompt
     - moment: 2023-05-15T09:30:00+03:00
-      messageRef: notification.before.psi
+      promptRef: notification.before.psi
       messageArgs: Release-20230527
       destination: groupchat-prompt
     - moment: 2023-05-16T09:30:00+03:00
-      messageRef: notification.due.psi
+      promptRef: notification.due.psi
       messageArgs: Release-20230527
       destination: groupchat-prompt
 
@@ -72,11 +72,11 @@ events:
       messageArgs: Release-20230617
       destination: groupchat-prompt
     - moment: 2023-06-05T09:30:00+03:00
-      messageRef: notification.before.psi
+      promptRef: notification.before.psi
       messageArgs: Release-20230617
       destination: groupchat-prompt
     - moment: 2023-06-06T09:30:00+03:00
-      messageRef: notification.due.psi
+      promptRef: notification.due.psi
       messageArgs: Release-20230617
       destination: groupchat-prompt
 
@@ -90,11 +90,11 @@ events:
       messageArgs: Release-20230708
       destination: groupchat-prompt
     - moment: 2023-06-26T09:30:00+03:00
-      messageRef: notification.before.psi
+      promptRef: notification.before.psi
       messageArgs: Release-20230708
       destination: groupchat-prompt
     - moment: 2023-06-27T09:30:00+03:00
-      messageRef: notification.due.psi
+      promptRef: notification.due.psi
       messageArgs: Release-20230708
       destination: groupchat-prompt
 

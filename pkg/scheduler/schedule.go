@@ -20,19 +20,19 @@ func Schedule() {
 			duration := time.Until(t.Moment)
 			if duration > 0 {
 				schedWaitGroup.Add(1)
-				go func(wg *sync.WaitGroup, promptRef string, msgRef string, msgArgs string) {
+				go func(wg *sync.WaitGroup, t settings.Event) {
 					defer wg.Done()
 					time.Sleep(duration)
 					varArgs := []string{}
-					if msgArgs != "" {
-						varArgs = strings.Split(msgArgs, ",")
+					if t.MessageArgs != "" {
+						varArgs = strings.Split(t.MessageArgs, ",")
 					}
 					var message string
 					var err error
-					if promptRef != "" {
-						message = openai.GetMessageByPrompt(promptRef, varArgs...)
+					if t.PromptRef != "" {
+						message = openai.GetMessageByPrompt(t.PromptRef, varArgs...)
 					} else {
-						message, err = settings.GetMessage(msgRef, varArgs...)
+						message, err = settings.GetMessage(t.MessageRef, varArgs...)
 					}
 					if err != nil {
 						log.Println(err)
@@ -43,7 +43,7 @@ func Schedule() {
 							email.SendText(message, chatId)
 						}
 					}
-				}(&schedWaitGroup, t.PromptRef, t.MessageRef, t.MessageArgs)
+				}(&schedWaitGroup, t)
 			}
 		}
 	}

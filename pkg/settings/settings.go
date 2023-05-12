@@ -28,13 +28,7 @@ type Settings struct {
 		} `yaml:"replace"`
 	} `yaml:"content"`
 	Events struct {
-		Once []struct {
-			Moment      time.Time `yaml:"moment"`
-			PromptRef   string    `yaml:"promptRef"`
-			MessageRef  string    `yaml:"messageRef"`
-			MessageArgs string    `yaml:"messageArgs"`
-			Destination string    `yaml:"destination"`
-		} `yaml:"once"`
+		Once []Event `yaml:"once"`
 	} `yaml:"events"`
 	Messages []struct {
 		Id   string `yaml:"id"`
@@ -47,10 +41,18 @@ type Settings struct {
 	} `yaml:"prompts"`
 }
 
+type Event struct {
+	Moment      time.Time `yaml:"moment"`
+	PromptRef   string    `yaml:"promptRef"`
+	MessageRef  string    `yaml:"messageRef"`
+	MessageArgs string    `yaml:"messageArgs"`
+	Destination string    `yaml:"destination"`
+}
+
 var settings Settings = Settings{}
 var initialized bool = false
 
-func GetSettings() Settings {
+func GetSettings() *Settings {
 	if !initialized {
 		if *cli.FlagConfig != "" {
 			yfile, ioErr := ioutil.ReadFile(*cli.FlagConfig)
@@ -63,5 +65,5 @@ func GetSettings() Settings {
 		}
 		initialized = true
 	}
-	return settings
+	return &settings
 }
