@@ -34,8 +34,12 @@ func TestSchedule(t *testing.T) {
 	event = &cfg.Events.Once[1]
 	event.Destination = "testgroup-prompt"
 	event.Moment = now.Add(1500 * time.Millisecond)
-	event.PromptRef = "current.date"
-	event.MessageArgs = time.Now().Format("January 02")
+	event.PromptRef = "imitate.speech"
+	event.MessageArgs = "пятница это лучший день недели, Тайлера Дерденна из фильма Бойцовский Клуб"
+
+	//event.PromptRef = "current.date"
+	//event.MessageArgs = time.Now().Format("January 02")
+
 	Schedule()
 }
 
