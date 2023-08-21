@@ -26,71 +26,35 @@ content:
 events:
   once:
     # Commons
-    - moment: 2023-04-17T08:29:00+03:00
-      promptRef: have.a.nice.day
+    - moment: 2023-08-10T10:29:15+03:00
+      promptRef: happy.birthday
+      messageArgs: Вике
       destination: groupchat-prompt
     - moment: 2023-04-17T08:31:00+03:00
       promptRef: current.date
       destination: groupchat-prompt
       messageArgs: 17 апреля
-
-    # Release-20230527
-    - moment: 2023-05-21T09:30:00+03:00
-      promptRef: notification.before.ift
-      messageArgs: завтра,Release-20230527
-      destination: groupchat-prompt
-    - moment: 2023-05-22T10:49:30+03:00
-      promptRef: notification.due.ift
-      messageArgs: Release-20230527
-      doestination: groupchat-prompt
-    - moment: 2023-05-26T16:08:00+03:00
-      promptRef: notification.before.psi
-      messageArgs: в понедельник,Release-20230527
-      destination: groupchat-prompt
-    - moment: 2023-05-29T09:30:00+03:00
-      promptRef: notification.due.psi
-      messageArgs: Release-20230527
-      destination: groupchat-prompt
-
-    # Release-20230617
-    - moment: 2023-05-29T09:30:00+03:00
-      promptRef: notification.before.ift
-      messageArgs: завтра,Release-20230617
-      destination: groupchat-prompt
-    - moment: 2023-05-30T09:30:00+03:00
-      promptRef: notification.due.ift
-      messageArgs: Release-20230617
-      destination: groupchat-prompt
-    - moment: 2023-06-05T09:30:00+03:00
-      promptRef: notification.before.psi
-      messageArgs: завтра,Release-20230617
-      destination: groupchat-prompt
-    - moment: 2023-06-06T09:30:00+03:00
-      promptRef: notification.due.psi
-      messageArgs: Release-20230617
-      destination: groupchat-prompt
-
-    # Release-20230708
-    - moment: 2023-06-19T09:30:00+03:00
-      promptRef: notification.before.ift
-      messageArgs: завтра,Release-20230708
-      destination: groupchat-prompt
-    - moment: 2023-06-20T09:30:00+03:00
-      promptRef: notification.due.ift
-      messageArgs: Release-20230708
-      destination: groupchat-prompt
-    - moment: 2023-06-26T09:30:00+03:00
-      promptRef: notification.before.psi
-      messageArgs: завтра,Release-20230708
-      destination: groupchat-prompt
-    - moment: 2023-06-27T09:30:00+03:00
-      promptRef: notification.due.psi
-      messageArgs: Release-20230708
-      destination: groupchat-prompt
-
     - moment: 2023-05-26T16:59:00+03:00
       promptRef: imitate.speech
       messageArgs: пятница это лучший день недели, Тайлера Дерденна из фильма Бойцовский Клуб
+      destination: groupchat-prompt
+
+    # Release-20230729
+    - moment: 2023-07-10T09:30:00+03:00
+      promptRef: notification.before.ift
+      messageArgs: завтра,Release-20230729
+      destination: groupchat-prompt
+    - moment: 2023-07-11T09:30:00+03:00
+      promptRef: notification.due.ift
+      messageArgs: Release-20230729
+      destination: groupchat-prompt
+    - moment: 2023-06-17T09:30:00+03:00
+      promptRef: notification.before.psi
+      messageArgs: завтра,Release-20230729
+      destination: groupchat-prompt
+    - moment: 2023-06-18T09:30:00+03:00
+      promptRef: notification.due.psi
+      messageArgs: Release-20230729
       destination: groupchat-prompt
 
 messages:

@@ -26,7 +26,7 @@ func TestSchedule(t *testing.T) {
 	cfg.Events.Once = cfg.Events.Once[0:2] // Drop all records except two
 	
 	now := time.Now()
-	fmt.Printf("Time = %s", now.Local().Format(time.RFC3339))
+	fmt.Printf("Time = %s\n", now.Local().Format(time.RFC3339))
 	event := &cfg.Events.Once[0]
 	event.Destination = "testgroup-prompt"
 	event.Moment = now.Add(500 * time.Millisecond)

@@ -57,6 +57,7 @@ func prepareRequest(chatId int64, content string) *ChatRequest {
 	updateHistory(chatId, "user", content)
 	req := ChatRequest{
 		Model:    "gpt-3.5-turbo",
+		//Model:    "gpt-4",
 		Messages: history[chatId],
 	}
 	return &req
