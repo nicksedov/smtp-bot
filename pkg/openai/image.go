@@ -40,9 +40,10 @@ func SendImageRequest(prompt string) *ImageResponse {
 
 func prepareImageRequest (prompt string) *ImageRequest {
 	return &ImageRequest{
+		Model: "dall-e-3",
 		Prompt: prompt,
 		N:    1,
-		Size: "512x512",
+		Size: "1024x1024",
 		ResponseFormat: "url",
 	}
 }

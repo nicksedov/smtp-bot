@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 
 	"github.com/nicksedov/sbconn-bot/pkg/cli"
@@ -28,10 +28,17 @@ func SendRequest(chatId int64, prompt string) *ChatResponse {
 	client := &http.Client{}
 	response, error := client.Do(request)
 	if error != nil {
+		fmt.Printf("Error calling OpenAI API: %s", error)
 		panic(error)
 	}
+	fmt.Printf("OpenAI API response satus: %s", response.Status)
+
 	defer response.Body.Close()
-	body, _ := ioutil.ReadAll(response.Body)
+	body, error := io.ReadAll(response.Body)
+	if error != nil {
+		fmt.Printf("Error processing OpenAI API response: %s", error)
+		panic(error)
+	}
 	resp := &ChatResponse{}
 	error = json.Unmarshal(body, resp)
 	if error != nil {
@@ -57,7 +64,6 @@ func prepareRequest(chatId int64, content string) *ChatRequest {
 	updateHistory(chatId, "user", content)
 	req := ChatRequest{
 		Model:    "gpt-3.5-turbo",
-		//Model:    "gpt-4",
 		Messages: history[chatId],
 	}
 	return &req
