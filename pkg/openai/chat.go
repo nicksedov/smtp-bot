@@ -25,18 +25,18 @@ func SendRequest(chatId int64, prompt string) *ChatResponse {
 	request, _ := http.NewRequest("POST", url, bytes.NewBuffer(jsonData))
 	request.Header.Set("Content-Type", "application/json; charset=UTF-8")
 	request.Header.Set("Authorization", "Bearer " + token)
-	client := &http.Client{}
+	client := GetClient()
 	response, error := client.Do(request)
 	if error != nil {
 		fmt.Printf("Error calling OpenAI API: %s", error)
 		panic(error)
 	}
-	fmt.Printf("OpenAI API response satus: %s", response.Status)
+	fmt.Printf("OpenAI API response satus: %s\n", response.Status)
 
 	defer response.Body.Close()
 	body, error := io.ReadAll(response.Body)
 	if error != nil {
-		fmt.Printf("Error processing OpenAI API response: %s", error)
+		fmt.Printf("Error processing OpenAI API response: %s\n", error)
 		panic(error)
 	}
 	resp := &ChatResponse{}
@@ -63,7 +63,7 @@ func updateHistory(userId int64, role string, content string) {
 func prepareRequest(chatId int64, content string) *ChatRequest {
 	updateHistory(chatId, "user", content)
 	req := ChatRequest{
-		Model:    "gpt-3.5-turbo",
+		Model:    "gpt-3.5-turbo-0125",
 		Messages: history[chatId],
 	}
 	return &req

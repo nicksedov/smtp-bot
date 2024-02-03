@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 
 	"github.com/nicksedov/sbconn-bot/pkg/cli"
@@ -22,13 +22,13 @@ func SendImageRequest(prompt string) *ImageResponse {
 	request, _ := http.NewRequest("POST", url, bytes.NewBuffer(jsonData))
 	request.Header.Set("Content-Type", "application/json; charset=UTF-8")
 	request.Header.Set("Authorization", "Bearer " + token)
-	client := &http.Client{}
+	client := GetClient()
 	response, error := client.Do(request)
 	if error != nil {
 		panic(error)
 	}
 	defer response.Body.Close()
-	body, _ := ioutil.ReadAll(response.Body)
+	body, _ := io.ReadAll(response.Body)
 	resp := &ImageResponse{HttpStatus: response.StatusCode}
 	error = json.Unmarshal(body, resp)
 	if error != nil {
