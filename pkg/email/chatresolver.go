@@ -16,7 +16,7 @@ func lookupChat(addr []*EmailAddress) (int64, bool) {
 				return chatId, true
 			}
 		}
-		chatIdByAlias, needsCaption := GetChatIdByAlias(tokens[0])
+		chatIdByAlias, needsCaption := getChatIdByAlias(tokens[0])
 		if chatIdByAlias != 0 {
 			return chatIdByAlias, needsCaption
 		}
@@ -24,7 +24,7 @@ func lookupChat(addr []*EmailAddress) (int64, bool) {
 	return 0, false
 }
 
-func GetChatIdByAlias(token string) (int64, bool) {
+func getChatIdByAlias(token string) (int64, bool) {
 	var settings = settings.GetSettings()
 	aliases := settings.Aliases.Chats
 	for _, chat := range aliases {

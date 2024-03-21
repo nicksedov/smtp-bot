@@ -12,8 +12,4 @@ var (
 	FlagWriteTimeout   = flag.Int("timeout.write", 5, "the write timeout in seconds")
 	FlagBotToken       = flag.String("bot.token", "", "telegram bot token")
 	FlagConfig         = flag.String("config", "sbconn-settings.yaml", "configuration YAML file")
-	FlagOpenAIToken    = flag.String("openai.token", "", "OpenAI token")
-	ProxyHost          = flag.String("proxy.host", "", "HTTP Proxy host")
-	ProxyUser          = flag.String("proxy.user", "", "HTTP Proxy user")
-	ProxyPassword      = flag.String("proxy.password", "", "HTTP Proxy password")
 )

@@ -1,9 +1,9 @@
 package settings
 
 import (
-	"io/ioutil"
 	"log"
-	"time"
+
+	"os"
 
 	"github.com/go-yaml/yaml"
 	"github.com/nicksedov/sbconn-bot/pkg/cli"
@@ -27,26 +27,6 @@ type Settings struct {
 			Replacement string `yaml:"replacement"`
 		} `yaml:"replace"`
 	} `yaml:"content"`
-	Events struct {
-		Once []Event `yaml:"once"`
-	} `yaml:"events"`
-	Messages []struct {
-		Id   string `yaml:"id"`
-		Text string `yaml:"text"`
-	} `yaml:"messages"`
-	Prompts []struct {
-		Id      string `yaml:"id"`
-		Prompt  string `yaml:"prompt"`
-		AltText string `yaml:"altText"`
-	} `yaml:"prompts"`
-}
-
-type Event struct {
-	Moment      time.Time `yaml:"moment"`
-	PromptRef   string    `yaml:"promptRef"`
-	MessageRef  string    `yaml:"messageRef"`
-	MessageArgs string    `yaml:"messageArgs"`
-	Destination string    `yaml:"destination"`
 }
 
 var settings Settings = Settings{}
@@ -55,7 +35,7 @@ var initialized bool = false
 func GetSettings() *Settings {
 	if !initialized {
 		if *cli.FlagConfig != "" {
-			yfile, ioErr := ioutil.ReadFile(*cli.FlagConfig)
+			yfile, ioErr := os.ReadFile(*cli.FlagConfig)
 			if ioErr == nil {
 				ymlErr := yaml.Unmarshal(yfile, &settings)
 				if ymlErr != nil {

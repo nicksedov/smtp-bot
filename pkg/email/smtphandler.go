@@ -31,17 +31,16 @@ func SmtpHandler(c *smtpsrv.Context) error {
 	} else if msg.TextBody != "" {
 		text := strings.Split(msg.TextBody, "<!--- END OF DOCUMENT --->")[0]
 		if needsCaption {
-			SendTextWithCaption(from, subj, text, chatId)
+			sendTextWithCaption(from, subj, text, chatId)
 		} else {
-			SendText(text, chatId)
+			sendText(text, chatId)
 		}
 	}
 	return nil
 }
 
 func sendHtml(from string, subj string, htmlDoc string, chatId int64) {
-	htmlPreprocessedDoc := telegram.ContentPreprocessor(htmlDoc)
-	tgCompatibleHtmlDoc := telegram.TryAdaptHtmlForTelegram(htmlPreprocessedDoc)
+	tgCompatibleHtmlDoc := telegram.TryAdaptHtmlForTelegram(htmlDoc)
 	htmlBody := telegram.GetHtmlBodyContent(tgCompatibleHtmlDoc)
 	if telegram.IsHtmlAdaptedForTelegram(htmlBody) {
 		htmlFrom := html.EscapeString(from)
@@ -53,7 +52,7 @@ func sendHtml(from string, subj string, htmlDoc string, chatId int64) {
 	} else {
 		file := tgbotapi.FileBytes{
 			Name:  "Сообщение.html",
-			Bytes: []byte(htmlPreprocessedDoc),
+			Bytes: []byte(htmlDoc),
 		}
 		chattable := tgbotapi.NewDocument(chatId, file)
 		chattable.Caption = fmt.Sprintf("*Сообщение от:* %s\n*Тема:* %s\n", from, subj)
@@ -62,13 +61,13 @@ func sendHtml(from string, subj string, htmlDoc string, chatId int64) {
 	}
 }
 
-func SendText(content string, chatId int64) {
+func sendText(content string, chatId int64) {
 	chattable := tgbotapi.NewMessage(chatId, content)
 	chattable.ParseMode = "markdown"
 	telegram.SendMessageToChat(chattable)
 }
 
-func SendTextWithCaption(from string, subj string, content string, chatId int64) {
+func sendTextWithCaption(from string, subj string, content string, chatId int64) {
 	msgText := fmt.Sprintf("*Сообщение от:* %s\n*Тема:* %s\n%s", from, subj, content)
-	SendText(msgText, chatId)
+	sendText(msgText, chatId)
 }
