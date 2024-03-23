@@ -10,6 +10,15 @@ import (
 	"github.com/nicksedov/smtp-bot/pkg/telegram"
 )
 
+const (
+	// Envelope sign
+	from_unicode string = "\u2709"  
+	from_html string = "&#x2709;"
+	// Double quote sign
+	subj_unicode string = "\u275D"
+	subj_html string = "&#x275D;"
+)
+
 func SmtpHandler(c *smtpsrv.Context) error {
 	msg, err := c.Parse()
 	if err != nil {
@@ -29,7 +38,7 @@ func SmtpHandler(c *smtpsrv.Context) error {
 	if msg.HTMLBody != "" {
 		sendHtml(from, subj, msg.HTMLBody, chatId)
 	} else if msg.TextBody != "" {
-		text := strings.Split(msg.TextBody, "<!--- END OF DOCUMENT --->")[0]
+		text := msg.TextBody
 		if needsCaption {
 			sendTextWithCaption(from, subj, text, chatId)
 		} else {
@@ -45,7 +54,7 @@ func sendHtml(from string, subj string, htmlDoc string, chatId int64) {
 	if telegram.IsHtmlAdaptedForTelegram(htmlBody) {
 		htmlFrom := html.EscapeString(from)
 		htmlSubj := html.EscapeString(subj)
-		msgText := fmt.Sprintf("<b>Сообщение от:</b> %s\n<b>Тема:</b> %s\n%s", htmlFrom, htmlSubj, htmlBody)
+		msgText := fmt.Sprintf("%s %s\n %s  %s\n%s", from_html, htmlFrom, subj_html, htmlSubj, htmlBody)
 		chattable := tgbotapi.NewMessage(chatId, msgText)
 		chattable.ParseMode = "HTML"
 		telegram.SendMessageToChat(chattable)
@@ -55,7 +64,7 @@ func sendHtml(from string, subj string, htmlDoc string, chatId int64) {
 			Bytes: []byte(htmlDoc),
 		}
 		chattable := tgbotapi.NewDocument(chatId, file)
-		chattable.Caption = fmt.Sprintf("*Сообщение от:* %s\n*Тема:* %s\n", from, subj)
+		chattable.Caption = fmt.Sprintf("%s %s\n %s  %s\n", from_unicode, from, subj_unicode, subj)
 		chattable.ParseMode = "markdown"
 		telegram.SendMessageToChat(chattable)
 	}
@@ -68,6 +77,6 @@ func sendText(content string, chatId int64) {
 }
 
 func sendTextWithCaption(from string, subj string, content string, chatId int64) {
-	msgText := fmt.Sprintf("*Сообщение от:* %s\n*Тема:* %s\n%s", from, subj, content)
+	msgText := fmt.Sprintf("%s %s\n %s  %s\n%s", from_unicode, from, subj_unicode, subj, content)
 	sendText(msgText, chatId)
 }
