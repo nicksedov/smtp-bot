@@ -12,11 +12,10 @@ timeout.read  | Таймаут чтения, сек.                    | 5
 timeout.write | Таймаут записи, сек.                    | 5
 config        | файл конфигурации (YAML)                | sbconn-settings.yaml
 bot.token     | Токен Telegram-бота                     |
-openai.token  | API-токен OpenAI                        |
 ------------------------------------------------------------------------------------
 
 Пример вызова командной строки:
-/opt/smtp-bot/smtp-bot -listen=:<port> -config=<path/to/settings_yaml> -bot.token=<telegram_token> -openai.token=<openai_api_token>
+/opt/smtp-bot/smtp-bot -listen=:<port> -config=<path/to/settings_yaml> -bot.token=<telegram_token>
 
 Contribution
 ============
