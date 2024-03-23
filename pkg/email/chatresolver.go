@@ -4,7 +4,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/nicksedov/sbconn-bot/pkg/settings"
+	"github.com/nicksedov/smtp-bot/pkg/settings"
 )
 
 func lookupChat(addr []*EmailAddress) (int64, bool) {

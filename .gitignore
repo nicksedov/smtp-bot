@@ -6,8 +6,9 @@ bin
 vendor
 
 # go executable built file
-sbconn-bot
-sbconn-bot.exe
+smtp-bot
+smtp-bot.exe
 deploy.sh
 
+settings.yaml
 secrets.yaml

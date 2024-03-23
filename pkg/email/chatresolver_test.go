@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/nicksedov/sbconn-bot/pkg/cli"
-	"github.com/nicksedov/sbconn-bot/pkg/settings"
+	"github.com/nicksedov/smtp-bot/pkg/cli"
+	"github.com/nicksedov/smtp-bot/pkg/settings"
 )
 
 func TestLookupChatId(t *testing.T) {

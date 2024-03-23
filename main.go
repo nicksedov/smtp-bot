@@ -6,9 +6,9 @@ import (
 	"time"
 
 	"github.com/alash3al/go-smtpsrv"
-	"github.com/nicksedov/sbconn-bot/pkg/cli"
-	"github.com/nicksedov/sbconn-bot/pkg/email"
-	"github.com/nicksedov/sbconn-bot/pkg/telegram"
+	"github.com/nicksedov/smtp-bot/pkg/cli"
+	"github.com/nicksedov/smtp-bot/pkg/email"
+	"github.com/nicksedov/smtp-bot/pkg/telegram"
 )
 
 func main() {

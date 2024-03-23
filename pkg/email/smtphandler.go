@@ -7,7 +7,7 @@ import (
 
 	"github.com/alash3al/go-smtpsrv"
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
-	"github.com/nicksedov/sbconn-bot/pkg/telegram"
+	"github.com/nicksedov/smtp-bot/pkg/telegram"
 )
 
 func SmtpHandler(c *smtpsrv.Context) error {

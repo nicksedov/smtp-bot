@@ -5,7 +5,7 @@ import (
 	"net/mail"
 	"testing"
 
-	"github.com/nicksedov/sbconn-bot/pkg/cli"
+	"github.com/nicksedov/smtp-bot/pkg/cli"
 )
 
 func TestExtractEmails(t *testing.T) {

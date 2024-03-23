@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
-	"github.com/nicksedov/sbconn-bot/pkg/cli"
+	"github.com/nicksedov/smtp-bot/pkg/cli"
 )
 
 var bot *tgbotapi.BotAPI

@@ -1,4 +1,4 @@
-module github.com/nicksedov/sbconn-bot
+module github.com/nicksedov/smtp-bot
 
 go 1.18
 

@@ -3,7 +3,7 @@ package email
 import (
 	"net/mail"
 
-	"github.com/nicksedov/sbconn-bot/pkg/settings"
+	"github.com/nicksedov/smtp-bot/pkg/settings"
 )
 
 func getEmailAliases(addr []*mail.Address, _ ...error) []string {

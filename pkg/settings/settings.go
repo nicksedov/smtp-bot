@@ -6,7 +6,7 @@ import (
 	"os"
 
 	"github.com/go-yaml/yaml"
-	"github.com/nicksedov/sbconn-bot/pkg/cli"
+	"github.com/nicksedov/smtp-bot/pkg/cli"
 )
 
 type Settings struct {
@@ -21,12 +21,6 @@ type Settings struct {
 			Address string `yaml:"address"`
 		} `yaml:"emails"`
 	} `yaml:"aliases"`
-	Content struct {
-		Replace []struct {
-			Pattern     string `yaml:"pattern"`
-			Replacement string `yaml:"replacement"`
-		} `yaml:"replace"`
-	} `yaml:"content"`
 }
 
 var settings Settings = Settings{}
